@@ -1,0 +1,664 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="lenka_000" created="Fri Apr 17 11:53:06 CEST 2015" description="Opportunity To OPPORTUNITY" guiVersion="3.4.4.P" id="1429271972701" licenseCode="Unlicensed" licenseType="Unknown" modified="Fri Apr 17 11:53:06 CEST 2015" modifiedBy="lenka_000" name="Opportunity_To_OPPORTUNITY" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/Opportunity" _dataStructure="OBJECT" _id="__id" _type="Input" id="028372b1-3c03-41ee-8b39-922d0fdc6011">
+<Record fieldDelimiter="," name="Opportunity" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/Opportunity/Name" containerType="SINGLE" label="Name" name="Name" type="string"/>
+<Field __sourcePath="{}/Opportunity/Id" containerType="SINGLE" label="Id" name="Id" type="string"/>
+<Field __sourcePath="{}/Opportunity/CloseDate" containerType="SINGLE" label="CloseDate" name="CloseDate" type="string"/>
+<Field __sourcePath="{}/Opportunity/StageName" containerType="SINGLE" label="StageName" name="StageName" type="string"/>
+<Field __sourcePath="{}/Opportunity/Probability" containerType="SINGLE" label="Probability" name="Probability" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/OPPORTUNITY" _dataStructure="OBJECT" _id="__id" _type="Output" id="ec26fa36-98ba-4168-887e-1bd1a0d3586f">
+<Record fieldDelimiter="," name="OPPORTUNITY" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __implementationClass="java.lang.String" __index="0" __sourcePath="{}/OPPORTUNITY/actionItem" containerType="SINGLE" label="actionItem" name="actionItem" type="string"/>
+<Field __implementationClass="java.lang.Double" __index="1" __sourcePath="{}/OPPORTUNITY/altSalesRangeHigh" containerType="SINGLE" label="altSalesRangeHigh" name="altSalesRangeHigh" type="number"/>
+<Field __implementationClass="java.lang.Double" __index="2" __sourcePath="{}/OPPORTUNITY/altSalesRangeLow" containerType="SINGLE" label="altSalesRangeLow" name="altSalesRangeLow" type="number"/>
+<Field __implementationClass="java.lang.String" __index="3" __sourcePath="{}/OPPORTUNITY/billAddress" containerType="SINGLE" label="billAddress" name="billAddress" type="string"/>
+<Field __implementationClass="java.lang.String" __index="4" __sourcePath="{}/OPPORTUNITY/billAddressList/externalId" containerType="SINGLE" label="externalId" name="externalId" type="string"/>
+<Field __implementationClass="java.lang.String" __index="5" __sourcePath="{}/OPPORTUNITY/billAddressList/internalId" containerType="SINGLE" label="internalId" name="internalId" type="string"/>
+<Field __implementationClass="java.lang.String" __index="6" __sourcePath="{}/OPPORTUNITY/billAddressList/name" containerType="SINGLE" label="name" name="name" type="string"/>
+<Field __index="7" __sourcePath="{}/OPPORTUNITY/billAddressList/type" containerType="SINGLE" label="type" name="type" type="string"/>
+<Field __implementationClass="java.lang.String" __index="8" __sourcePath="{}/OPPORTUNITY/buyingReason/externalId" containerType="SINGLE" label="externalId" name="externalId_1" type="string"/>
+<Field __implementationClass="java.lang.String" __index="9" __sourcePath="{}/OPPORTUNITY/buyingReason/internalId" containerType="SINGLE" label="internalId" name="internalId_1" type="string"/>
+<Field __implementationClass="java.lang.String" __index="10" __sourcePath="{}/OPPORTUNITY/buyingReason/name" containerType="SINGLE" label="name" name="name_1" type="string"/>
+<Field __index="11" __sourcePath="{}/OPPORTUNITY/buyingReason/type" containerType="SINGLE" label="type" name="type_1" type="string"/>
+<Field __implementationClass="java.lang.String" __index="12" __sourcePath="{}/OPPORTUNITY/buyingTimeFrame/externalId" containerType="SINGLE" label="externalId" name="externalId_2" type="string"/>
+<Field __implementationClass="java.lang.String" __index="13" __sourcePath="{}/OPPORTUNITY/buyingTimeFrame/internalId" containerType="SINGLE" label="internalId" name="internalId_2" type="string"/>
+<Field __implementationClass="java.lang.String" __index="14" __sourcePath="{}/OPPORTUNITY/buyingTimeFrame/name" containerType="SINGLE" label="name" name="name_2" type="string"/>
+<Field __index="15" __sourcePath="{}/OPPORTUNITY/buyingTimeFrame/type" containerType="SINGLE" label="type" name="type_2" type="string"/>
+<Field __implementationClass="java.lang.String" __index="16" __sourcePath="{}/OPPORTUNITY/clazz/externalId" containerType="SINGLE" label="externalId" name="externalId_3" type="string"/>
+<Field __implementationClass="java.lang.String" __index="17" __sourcePath="{}/OPPORTUNITY/clazz/internalId" containerType="SINGLE" label="internalId" name="internalId_3" type="string"/>
+<Field __implementationClass="java.lang.String" __index="18" __sourcePath="{}/OPPORTUNITY/clazz/name" containerType="SINGLE" label="name" name="name_3" type="string"/>
+<Field __index="19" __sourcePath="{}/OPPORTUNITY/clazz/type" containerType="SINGLE" label="type" name="type_3" type="string"/>
+<Field __dmType="Calendar" __implementationClass="javax.xml.datatype.XMLGregorianCalendar" __index="20" __sourcePath="{}/OPPORTUNITY/closeDate" containerType="SINGLE" label="closeDate" name="closeDate" type="string"/>
+<Field __implementationClass="java.lang.String" __index="21" __sourcePath="{}/OPPORTUNITY/competitorsList/competitors/competitor/externalId" containerType="SINGLE" label="externalId" name="externalId_4" type="string"/>
+<Field __implementationClass="java.lang.String" __index="22" __sourcePath="{}/OPPORTUNITY/competitorsList/competitors/competitor/internalId" containerType="SINGLE" label="internalId" name="internalId_4" type="string"/>
+<Field __implementationClass="java.lang.String" __index="23" __sourcePath="{}/OPPORTUNITY/competitorsList/competitors/competitor/name" containerType="SINGLE" label="name" name="name_4" type="string"/>
+<Field __index="24" __sourcePath="{}/OPPORTUNITY/competitorsList/competitors/competitor/type" containerType="SINGLE" label="type" name="type_4" type="string"/>
+<Field __implementationClass="java.lang.String" __index="25" __sourcePath="{}/OPPORTUNITY/competitorsList/competitors/notes" containerType="SINGLE" label="notes" name="notes" type="string"/>
+<Field __implementationClass="java.lang.String" __index="26" __sourcePath="{}/OPPORTUNITY/competitorsList/competitors/strategy" containerType="SINGLE" label="strategy" name="strategy" type="string"/>
+<Field __implementationClass="java.lang.String" __index="27" __sourcePath="{}/OPPORTUNITY/competitorsList/competitors/url" containerType="SINGLE" label="url" name="url" type="string"/>
+<Field __implementationClass="java.lang.Boolean" __index="28" __sourcePath="{}/OPPORTUNITY/competitorsList/competitors/winner" containerType="SINGLE" label="winner" name="winner" type="boolean"/>
+<Field __implementationClass="java.lang.Boolean" __index="29" __sourcePath="{}/OPPORTUNITY/competitorsList/replaceAll" containerType="SINGLE" label="replaceAll" name="replaceAll" type="boolean"/>
+<Field __implementationClass="java.lang.String" __index="30" __sourcePath="{}/OPPORTUNITY/contribPct" containerType="SINGLE" label="contribPct" name="contribPct" type="string"/>
+<Field __dmType="Calendar" __implementationClass="javax.xml.datatype.XMLGregorianCalendar" __index="31" __sourcePath="{}/OPPORTUNITY/createdDate" containerType="SINGLE" label="createdDate" name="createdDate" type="string"/>
+<Field __implementationClass="java.lang.String" __index="32" __sourcePath="{}/OPPORTUNITY/currency/externalId" containerType="SINGLE" label="externalId" name="externalId_5" type="string"/>
+<Field __implementationClass="java.lang.String" __index="33" __sourcePath="{}/OPPORTUNITY/currency/internalId" containerType="SINGLE" label="internalId" name="internalId_5" type="string"/>
+<Field __implementationClass="java.lang.String" __index="34" __sourcePath="{}/OPPORTUNITY/currency/name" containerType="SINGLE" label="name" name="name_5" type="string"/>
+<Field __index="35" __sourcePath="{}/OPPORTUNITY/currency/type" containerType="SINGLE" label="type" name="type_5" type="string"/>
+<Field __implementationClass="java.lang.String" __index="36" __sourcePath="{}/OPPORTUNITY/currencyName" containerType="SINGLE" label="currencyName" name="currencyName" type="string"/>
+<Field __implementationClass="java.lang.String" __index="37" __sourcePath="{}/OPPORTUNITY/customFieldList/customField/SelectCustomFieldRef_x005f_x005f3141_x005f_x005fcustcol_x005fpfc_x005fwo/externalId" containerType="SINGLE" label="externalId" name="externalId_6" type="string"/>
+<Field __implementationClass="java.lang.String" __index="38" __sourcePath="{}/OPPORTUNITY/customFieldList/customField/SelectCustomFieldRef_x005f_x005f3141_x005f_x005fcustcol_x005fpfc_x005fwo/internalId" containerType="SINGLE" label="internalId" name="internalId_6" type="string"/>
+<Field __implementationClass="java.lang.String" __index="39" __sourcePath="{}/OPPORTUNITY/customFieldList/customField/SelectCustomFieldRef_x005f_x005f3141_x005f_x005fcustcol_x005fpfc_x005fwo/name" containerType="SINGLE" label="name" name="name_6" type="string"/>
+<Field __implementationClass="java.lang.String" __index="40" __sourcePath="{}/OPPORTUNITY/customFieldList/customField/SelectCustomFieldRef_x005f_x005f3141_x005f_x005fcustcol_x005fpfc_x005fwo/typeId" containerType="SINGLE" label="typeId" name="typeId" type="string"/>
+<Field __implementationClass="java.math.BigDecimal" __index="41" __sourcePath="{}/OPPORTUNITY/customFieldList/customField/DoubleCustomFieldRef_x005f_x005f8_x005f_x005fcustcol4" containerType="SINGLE" label="DoubleCustomFieldRef__8__custcol4" name="DoubleCustomFieldRef__8__custcol4" type="decimal"/>
+<Field __implementationClass="java.lang.String" __index="42" __sourcePath="{}/OPPORTUNITY/customFieldList/customField/SelectCustomFieldRef_x005f_x005f3139_x005f_x005fcustcol_x005fpfc_x005fconfiguration/externalId" containerType="SINGLE" label="externalId" name="externalId_7" type="string"/>
+<Field __implementationClass="java.lang.String" __index="43" __sourcePath="{}/OPPORTUNITY/customFieldList/customField/SelectCustomFieldRef_x005f_x005f3139_x005f_x005fcustcol_x005fpfc_x005fconfiguration/internalId" containerType="SINGLE" label="internalId" name="internalId_7" type="string"/>
+<Field __implementationClass="java.lang.String" __index="44" __sourcePath="{}/OPPORTUNITY/customFieldList/customField/SelectCustomFieldRef_x005f_x005f3139_x005f_x005fcustcol_x005fpfc_x005fconfiguration/name" containerType="SINGLE" label="name" name="name_7" type="string"/>
+<Field __implementationClass="java.lang.String" __index="45" __sourcePath="{}/OPPORTUNITY/customFieldList/customField/SelectCustomFieldRef_x005f_x005f3139_x005f_x005fcustcol_x005fpfc_x005fconfiguration/typeId" containerType="SINGLE" label="typeId" name="typeId_1" type="string"/>
+<Field __implementationClass="java.lang.String" __index="46" __sourcePath="{}/OPPORTUNITY/customFieldList/customField/StringCustomFieldRef_x005f_x005f7_x005f_x005fcustcol3" containerType="SINGLE" label="StringCustomFieldRef__7__custcol3" name="StringCustomFieldRef__7__custcol3" type="string"/>
+<Field __implementationClass="java.lang.String" __index="47" __sourcePath="{}/OPPORTUNITY/customFieldList/customField/SelectCustomFieldRef_x005f_x005f3142_x005f_x005fcustbody_x005fpfc_x005fpfitemid/externalId" containerType="SINGLE" label="externalId" name="externalId_8" type="string"/>
+<Field __implementationClass="java.lang.String" __index="48" __sourcePath="{}/OPPORTUNITY/customFieldList/customField/SelectCustomFieldRef_x005f_x005f3142_x005f_x005fcustbody_x005fpfc_x005fpfitemid/internalId" containerType="SINGLE" label="internalId" name="internalId_8" type="string"/>
+<Field __implementationClass="java.lang.String" __index="49" __sourcePath="{}/OPPORTUNITY/customFieldList/customField/SelectCustomFieldRef_x005f_x005f3142_x005f_x005fcustbody_x005fpfc_x005fpfitemid/name" containerType="SINGLE" label="name" name="name_8" type="string"/>
+<Field __implementationClass="java.lang.String" __index="50" __sourcePath="{}/OPPORTUNITY/customFieldList/customField/SelectCustomFieldRef_x005f_x005f3142_x005f_x005fcustbody_x005fpfc_x005fpfitemid/typeId" containerType="SINGLE" label="typeId" name="typeId_2" type="string"/>
+<Field __implementationClass="java.lang.Boolean" __index="51" __sourcePath="{}/OPPORTUNITY/customFieldList/customField/BooleanCustomFieldRef_x005f_x005f3140_x005f_x005fcustcol_x005fpfc_x005fpfconfigurator" containerType="SINGLE" label="BooleanCustomFieldRef__3140__custcol_pfc_pfconfigurator" name="BooleanCustomFieldRef__3140__custcol_pfc_pfconfigurator" type="boolean"/>
+<Field __implementationClass="java.lang.String" __index="52" __sourcePath="{}/OPPORTUNITY/customFieldList/customField/StringCustomFieldRef_x005f_x005f3152_x005f_x005fcustcol8" containerType="SINGLE" label="StringCustomFieldRef__3152__custcol8" name="StringCustomFieldRef__3152__custcol8" type="string"/>
+<Field __implementationClass="java.lang.String" __index="53" __sourcePath="{}/OPPORTUNITY/customForm/externalId" containerType="SINGLE" label="externalId" name="externalId_9" type="string"/>
+<Field __implementationClass="java.lang.String" __index="54" __sourcePath="{}/OPPORTUNITY/customForm/internalId" containerType="SINGLE" label="internalId" name="internalId_9" type="string"/>
+<Field __implementationClass="java.lang.String" __index="55" __sourcePath="{}/OPPORTUNITY/customForm/name" containerType="SINGLE" label="name" name="name_9" type="string"/>
+<Field __index="56" __sourcePath="{}/OPPORTUNITY/customForm/type" containerType="SINGLE" label="type" name="type_6" type="string"/>
+<Field __implementationClass="java.lang.Long" __index="57" __sourcePath="{}/OPPORTUNITY/daysOpen" containerType="SINGLE" label="daysOpen" name="daysOpen" type="long"/>
+<Field __implementationClass="java.lang.String" __index="58" __sourcePath="{}/OPPORTUNITY/department/externalId" containerType="SINGLE" label="externalId" name="externalId_10" type="string"/>
+<Field __implementationClass="java.lang.String" __index="59" __sourcePath="{}/OPPORTUNITY/department/internalId" containerType="SINGLE" label="internalId" name="internalId_10" type="string"/>
+<Field __implementationClass="java.lang.String" __index="60" __sourcePath="{}/OPPORTUNITY/department/name" containerType="SINGLE" label="name" name="name_10" type="string"/>
+<Field __index="61" __sourcePath="{}/OPPORTUNITY/department/type" containerType="SINGLE" label="type" name="type_7" type="string"/>
+<Field __implementationClass="java.lang.String" __index="62" __sourcePath="{}/OPPORTUNITY/entity/externalId" containerType="SINGLE" label="externalId" name="externalId_11" type="string"/>
+<Field __implementationClass="java.lang.String" __index="63" __sourcePath="{}/OPPORTUNITY/entity/internalId" containerType="SINGLE" label="internalId" name="internalId_11" type="string"/>
+<Field __implementationClass="java.lang.String" __index="64" __sourcePath="{}/OPPORTUNITY/entity/name" containerType="SINGLE" label="name" name="name_11" type="string"/>
+<Field __index="65" __sourcePath="{}/OPPORTUNITY/entity/type" containerType="SINGLE" label="type" name="type_8" type="string"/>
+<Field __implementationClass="java.lang.String" __index="66" __sourcePath="{}/OPPORTUNITY/entityStatus/externalId" containerType="SINGLE" label="externalId" name="externalId_12" type="string"/>
+<Field __implementationClass="java.lang.String" __index="67" __sourcePath="{}/OPPORTUNITY/entityStatus/internalId" containerType="SINGLE" label="internalId" name="internalId_12" type="string"/>
+<Field __implementationClass="java.lang.String" __index="68" __sourcePath="{}/OPPORTUNITY/entityStatus/name" containerType="SINGLE" label="name" name="name_12" type="string"/>
+<Field __index="69" __sourcePath="{}/OPPORTUNITY/entityStatus/type" containerType="SINGLE" label="type" name="type_9" type="string"/>
+<Field __implementationClass="java.lang.Double" __index="70" __sourcePath="{}/OPPORTUNITY/estGrossProfit" containerType="SINGLE" label="estGrossProfit" name="estGrossProfit" type="number"/>
+<Field __implementationClass="java.lang.Double" __index="71" __sourcePath="{}/OPPORTUNITY/estGrossProfitPercent" containerType="SINGLE" label="estGrossProfitPercent" name="estGrossProfitPercent" type="number"/>
+<Field __implementationClass="java.lang.Double" __index="72" __sourcePath="{}/OPPORTUNITY/estimatedBudget" containerType="SINGLE" label="estimatedBudget" name="estimatedBudget" type="number"/>
+<Field __implementationClass="java.lang.Double" __index="73" __sourcePath="{}/OPPORTUNITY/exchangeRate" containerType="SINGLE" label="exchangeRate" name="exchangeRate" type="number"/>
+<Field __dmType="Calendar" __implementationClass="javax.xml.datatype.XMLGregorianCalendar" __index="74" __sourcePath="{}/OPPORTUNITY/expectedCloseDate" containerType="SINGLE" label="expectedCloseDate" name="expectedCloseDate" type="string"/>
+<Field __implementationClass="java.lang.String" __index="75" __sourcePath="{}/OPPORTUNITY/externalId" containerType="SINGLE" label="externalId" name="externalId_13" type="string"/>
+<Field __implementationClass="java.lang.String" __index="76" __sourcePath="{}/OPPORTUNITY/forecastType/externalId" containerType="SINGLE" label="externalId" name="externalId_14" type="string"/>
+<Field __implementationClass="java.lang.String" __index="77" __sourcePath="{}/OPPORTUNITY/forecastType/internalId" containerType="SINGLE" label="internalId" name="internalId_13" type="string"/>
+<Field __implementationClass="java.lang.String" __index="78" __sourcePath="{}/OPPORTUNITY/forecastType/name" containerType="SINGLE" label="name" name="name_13" type="string"/>
+<Field __index="79" __sourcePath="{}/OPPORTUNITY/forecastType/type" containerType="SINGLE" label="type" name="type_10" type="string"/>
+<Field __implementationClass="java.lang.String" __index="80" __sourcePath="{}/OPPORTUNITY/internalId" containerType="SINGLE" label="internalId" name="internalId_14" type="string"/>
+<Field __implementationClass="java.lang.Boolean" __index="81" __sourcePath="{}/OPPORTUNITY/isBudgetApproved" containerType="SINGLE" label="isBudgetApproved" name="isBudgetApproved" type="boolean"/>
+<Field __implementationClass="java.lang.Double" __index="82" __sourcePath="{}/OPPORTUNITY/itemList/item/altSalesAmt" containerType="SINGLE" label="altSalesAmt" name="altSalesAmt" type="number"/>
+<Field __implementationClass="java.lang.Double" __index="83" __sourcePath="{}/OPPORTUNITY/itemList/item/amount" containerType="SINGLE" label="amount" name="amount" type="number"/>
+<Field __implementationClass="java.lang.String" __index="84" __sourcePath="{}/OPPORTUNITY/itemList/item/clazz/externalId" containerType="SINGLE" label="externalId" name="externalId_15" type="string"/>
+<Field __implementationClass="java.lang.String" __index="85" __sourcePath="{}/OPPORTUNITY/itemList/item/clazz/internalId" containerType="SINGLE" label="internalId" name="internalId_15" type="string"/>
+<Field __implementationClass="java.lang.String" __index="86" __sourcePath="{}/OPPORTUNITY/itemList/item/clazz/name" containerType="SINGLE" label="name" name="name_14" type="string"/>
+<Field __index="87" __sourcePath="{}/OPPORTUNITY/itemList/item/clazz/type" containerType="SINGLE" label="type" name="type_11" type="string"/>
+<Field __implementationClass="java.lang.Double" __index="88" __sourcePath="{}/OPPORTUNITY/itemList/item/costEstimate" containerType="SINGLE" label="costEstimate" name="costEstimate" type="number"/>
+<Field __index="89" __sourcePath="{}/OPPORTUNITY/itemList/item/costEstimateType" containerType="SINGLE" label="costEstimateType" name="costEstimateType" type="string"/>
+<Field __implementationClass="java.lang.String" __index="90" __sourcePath="{}/OPPORTUNITY/itemList/item/customFieldList/customField/internalId" containerType="SINGLE" label="internalId" name="internalId_16" type="string"/>
+<Field __implementationClass="java.lang.String" __index="91" __sourcePath="{}/OPPORTUNITY/itemList/item/customFieldList/customField/scriptId" containerType="SINGLE" label="scriptId" name="scriptId" type="string"/>
+<Field __implementationClass="java.lang.String" __index="92" __sourcePath="{}/OPPORTUNITY/itemList/item/department/externalId" containerType="SINGLE" label="externalId" name="externalId_16" type="string"/>
+<Field __implementationClass="java.lang.String" __index="93" __sourcePath="{}/OPPORTUNITY/itemList/item/department/internalId" containerType="SINGLE" label="internalId" name="internalId_17" type="string"/>
+<Field __implementationClass="java.lang.String" __index="94" __sourcePath="{}/OPPORTUNITY/itemList/item/department/name" containerType="SINGLE" label="name" name="name_15" type="string"/>
+<Field __index="95" __sourcePath="{}/OPPORTUNITY/itemList/item/department/type" containerType="SINGLE" label="type" name="type_12" type="string"/>
+<Field __implementationClass="java.lang.String" __index="96" __sourcePath="{}/OPPORTUNITY/itemList/item/description" containerType="SINGLE" label="description" name="description" type="string"/>
+<Field __dmType="Calendar" __implementationClass="javax.xml.datatype.XMLGregorianCalendar" __index="97" __sourcePath="{}/OPPORTUNITY/itemList/item/expectedShipDate" containerType="SINGLE" label="expectedShipDate" name="expectedShipDate" type="string"/>
+<Field __implementationClass="java.lang.Boolean" __index="98" __sourcePath="{}/OPPORTUNITY/itemList/item/fromJob" containerType="SINGLE" label="fromJob" name="fromJob" type="boolean"/>
+<Field __implementationClass="java.lang.Double" __index="99" __sourcePath="{}/OPPORTUNITY/itemList/item/grossAmt" containerType="SINGLE" label="grossAmt" name="grossAmt" type="number"/>
+<Field __implementationClass="java.lang.Boolean" __index="100" __sourcePath="{}/OPPORTUNITY/itemList/item/isEstimate" containerType="SINGLE" label="isEstimate" name="isEstimate" type="boolean"/>
+<Field __implementationClass="java.lang.String" __index="101" __sourcePath="{}/OPPORTUNITY/itemList/item/item/externalId" containerType="SINGLE" label="externalId" name="externalId_17" type="string"/>
+<Field __implementationClass="java.lang.String" __index="102" __sourcePath="{}/OPPORTUNITY/itemList/item/item/internalId" containerType="SINGLE" label="internalId" name="internalId_18" type="string"/>
+<Field __implementationClass="java.lang.String" __index="103" __sourcePath="{}/OPPORTUNITY/itemList/item/item/name" containerType="SINGLE" label="name" name="name_16" type="string"/>
+<Field __index="104" __sourcePath="{}/OPPORTUNITY/itemList/item/item/type" containerType="SINGLE" label="type" name="type_13" type="string"/>
+<Field __implementationClass="java.lang.String" __index="105" __sourcePath="{}/OPPORTUNITY/itemList/item/job/externalId" containerType="SINGLE" label="externalId" name="externalId_18" type="string"/>
+<Field __implementationClass="java.lang.String" __index="106" __sourcePath="{}/OPPORTUNITY/itemList/item/job/internalId" containerType="SINGLE" label="internalId" name="internalId_19" type="string"/>
+<Field __implementationClass="java.lang.String" __index="107" __sourcePath="{}/OPPORTUNITY/itemList/item/job/name" containerType="SINGLE" label="name" name="name_17" type="string"/>
+<Field __index="108" __sourcePath="{}/OPPORTUNITY/itemList/item/job/type" containerType="SINGLE" label="type" name="type_14" type="string"/>
+<Field __implementationClass="java.lang.Long" __index="109" __sourcePath="{}/OPPORTUNITY/itemList/item/line" containerType="SINGLE" label="line" name="line" type="long"/>
+<Field __implementationClass="java.lang.String" __index="110" __sourcePath="{}/OPPORTUNITY/itemList/item/location/externalId" containerType="SINGLE" label="externalId" name="externalId_19" type="string"/>
+<Field __implementationClass="java.lang.String" __index="111" __sourcePath="{}/OPPORTUNITY/itemList/item/location/internalId" containerType="SINGLE" label="internalId" name="internalId_20" type="string"/>
+<Field __implementationClass="java.lang.String" __index="112" __sourcePath="{}/OPPORTUNITY/itemList/item/location/name" containerType="SINGLE" label="name" name="name_18" type="string"/>
+<Field __index="113" __sourcePath="{}/OPPORTUNITY/itemList/item/location/type" containerType="SINGLE" label="type" name="type_15" type="string"/>
+<Field __implementationClass="java.lang.String" __index="114" __sourcePath="{}/OPPORTUNITY/itemList/item/options/customField/internalId" containerType="SINGLE" label="internalId" name="internalId_21" type="string"/>
+<Field __implementationClass="java.lang.String" __index="115" __sourcePath="{}/OPPORTUNITY/itemList/item/options/customField/scriptId" containerType="SINGLE" label="scriptId" name="scriptId_1" type="string"/>
+<Field __implementationClass="java.lang.String" __index="116" __sourcePath="{}/OPPORTUNITY/itemList/item/price/externalId" containerType="SINGLE" label="externalId" name="externalId_20" type="string"/>
+<Field __implementationClass="java.lang.String" __index="117" __sourcePath="{}/OPPORTUNITY/itemList/item/price/internalId" containerType="SINGLE" label="internalId" name="internalId_22" type="string"/>
+<Field __implementationClass="java.lang.String" __index="118" __sourcePath="{}/OPPORTUNITY/itemList/item/price/name" containerType="SINGLE" label="name" name="name_19" type="string"/>
+<Field __index="119" __sourcePath="{}/OPPORTUNITY/itemList/item/price/type" containerType="SINGLE" label="type" name="type_16" type="string"/>
+<Field __implementationClass="java.lang.Double" __index="120" __sourcePath="{}/OPPORTUNITY/itemList/item/quantity" containerType="SINGLE" label="quantity" name="quantity" type="number"/>
+<Field __implementationClass="java.lang.Double" __index="121" __sourcePath="{}/OPPORTUNITY/itemList/item/quantityAvailable" containerType="SINGLE" label="quantityAvailable" name="quantityAvailable" type="number"/>
+<Field __implementationClass="java.lang.Double" __index="122" __sourcePath="{}/OPPORTUNITY/itemList/item/quantityOnHand" containerType="SINGLE" label="quantityOnHand" name="quantityOnHand" type="number"/>
+<Field __implementationClass="java.lang.String" __index="123" __sourcePath="{}/OPPORTUNITY/itemList/item/rate" containerType="SINGLE" label="rate" name="rate" type="string"/>
+<Field __implementationClass="java.lang.Long" __index="124" __sourcePath="{}/OPPORTUNITY/itemList/item/revRecTermInMonths" containerType="SINGLE" label="revRecTermInMonths" name="revRecTermInMonths" type="long"/>
+<Field __implementationClass="java.lang.Double" __index="125" __sourcePath="{}/OPPORTUNITY/itemList/item/tax1Amt" containerType="SINGLE" label="tax1Amt" name="tax1Amt" type="number"/>
+<Field __implementationClass="java.lang.String" __index="126" __sourcePath="{}/OPPORTUNITY/itemList/item/taxCode/externalId" containerType="SINGLE" label="externalId" name="externalId_21" type="string"/>
+<Field __implementationClass="java.lang.String" __index="127" __sourcePath="{}/OPPORTUNITY/itemList/item/taxCode/internalId" containerType="SINGLE" label="internalId" name="internalId_23" type="string"/>
+<Field __implementationClass="java.lang.String" __index="128" __sourcePath="{}/OPPORTUNITY/itemList/item/taxCode/name" containerType="SINGLE" label="name" name="name_20" type="string"/>
+<Field __index="129" __sourcePath="{}/OPPORTUNITY/itemList/item/taxCode/type" containerType="SINGLE" label="type" name="type_17" type="string"/>
+<Field __implementationClass="java.lang.Double" __index="130" __sourcePath="{}/OPPORTUNITY/itemList/item/taxRate1" containerType="SINGLE" label="taxRate1" name="taxRate1" type="number"/>
+<Field __implementationClass="java.lang.Double" __index="131" __sourcePath="{}/OPPORTUNITY/itemList/item/taxRate2" containerType="SINGLE" label="taxRate2" name="taxRate2" type="number"/>
+<Field __implementationClass="java.lang.String" __index="132" __sourcePath="{}/OPPORTUNITY/itemList/item/units/externalId" containerType="SINGLE" label="externalId" name="externalId_22" type="string"/>
+<Field __implementationClass="java.lang.String" __index="133" __sourcePath="{}/OPPORTUNITY/itemList/item/units/internalId" containerType="SINGLE" label="internalId" name="internalId_24" type="string"/>
+<Field __implementationClass="java.lang.String" __index="134" __sourcePath="{}/OPPORTUNITY/itemList/item/units/name" containerType="SINGLE" label="name" name="name_21" type="string"/>
+<Field __index="135" __sourcePath="{}/OPPORTUNITY/itemList/item/units/type" containerType="SINGLE" label="type" name="type_18" type="string"/>
+<Field __implementationClass="java.lang.Boolean" __index="136" __sourcePath="{}/OPPORTUNITY/itemList/replaceAll" containerType="SINGLE" label="replaceAll" name="replaceAll_1" type="boolean"/>
+<Field __implementationClass="java.lang.String" __index="137" __sourcePath="{}/OPPORTUNITY/job/externalId" containerType="SINGLE" label="externalId" name="externalId_23" type="string"/>
+<Field __implementationClass="java.lang.String" __index="138" __sourcePath="{}/OPPORTUNITY/job/internalId" containerType="SINGLE" label="internalId" name="internalId_25" type="string"/>
+<Field __implementationClass="java.lang.String" __index="139" __sourcePath="{}/OPPORTUNITY/job/name" containerType="SINGLE" label="name" name="name_22" type="string"/>
+<Field __index="140" __sourcePath="{}/OPPORTUNITY/job/type" containerType="SINGLE" label="type" name="type_19" type="string"/>
+<Field __dmType="Calendar" __implementationClass="javax.xml.datatype.XMLGregorianCalendar" __index="141" __sourcePath="{}/OPPORTUNITY/lastModifiedDate" containerType="SINGLE" label="lastModifiedDate" name="lastModifiedDate" type="string"/>
+<Field __implementationClass="java.lang.String" __index="142" __sourcePath="{}/OPPORTUNITY/leadSource/externalId" containerType="SINGLE" label="externalId" name="externalId_24" type="string"/>
+<Field __implementationClass="java.lang.String" __index="143" __sourcePath="{}/OPPORTUNITY/leadSource/internalId" containerType="SINGLE" label="internalId" name="internalId_26" type="string"/>
+<Field __implementationClass="java.lang.String" __index="144" __sourcePath="{}/OPPORTUNITY/leadSource/name" containerType="SINGLE" label="name" name="name_23" type="string"/>
+<Field __index="145" __sourcePath="{}/OPPORTUNITY/leadSource/type" containerType="SINGLE" label="type" name="type_20" type="string"/>
+<Field __implementationClass="java.lang.String" __index="146" __sourcePath="{}/OPPORTUNITY/location/externalId" containerType="SINGLE" label="externalId" name="externalId_25" type="string"/>
+<Field __implementationClass="java.lang.String" __index="147" __sourcePath="{}/OPPORTUNITY/location/internalId" containerType="SINGLE" label="internalId" name="internalId_27" type="string"/>
+<Field __implementationClass="java.lang.String" __index="148" __sourcePath="{}/OPPORTUNITY/location/name" containerType="SINGLE" label="name" name="name_24" type="string"/>
+<Field __index="149" __sourcePath="{}/OPPORTUNITY/location/type" containerType="SINGLE" label="type" name="type_21" type="string"/>
+<Field __implementationClass="java.lang.String" __index="150" __sourcePath="{}/OPPORTUNITY/memo" containerType="SINGLE" label="memo" name="memo" type="string"/>
+<Field __index="151" __sourcePath="{}/OPPORTUNITY/nullFieldList/name" containerType="list" label="name" name="name_25" type="string"/>
+<Field __implementationClass="java.lang.String" __index="152" __sourcePath="{}/OPPORTUNITY/partner/externalId" containerType="SINGLE" label="externalId" name="externalId_26" type="string"/>
+<Field __implementationClass="java.lang.String" __index="153" __sourcePath="{}/OPPORTUNITY/partner/internalId" containerType="SINGLE" label="internalId" name="internalId_28" type="string"/>
+<Field __implementationClass="java.lang.String" __index="154" __sourcePath="{}/OPPORTUNITY/partner/name" containerType="SINGLE" label="name" name="name_26" type="string"/>
+<Field __index="155" __sourcePath="{}/OPPORTUNITY/partner/type" containerType="SINGLE" label="type" name="type_22" type="string"/>
+<Field __implementationClass="java.lang.Double" __index="156" __sourcePath="{}/OPPORTUNITY/partnersList/partners/contribution" containerType="SINGLE" label="contribution" name="contribution" type="number"/>
+<Field __implementationClass="java.lang.Boolean" __index="157" __sourcePath="{}/OPPORTUNITY/partnersList/partners/isPrimary" containerType="SINGLE" label="isPrimary" name="isPrimary" type="boolean"/>
+<Field __implementationClass="java.lang.String" __index="158" __sourcePath="{}/OPPORTUNITY/partnersList/partners/partner/externalId" containerType="SINGLE" label="externalId" name="externalId_27" type="string"/>
+<Field __implementationClass="java.lang.String" __index="159" __sourcePath="{}/OPPORTUNITY/partnersList/partners/partner/internalId" containerType="SINGLE" label="internalId" name="internalId_29" type="string"/>
+<Field __implementationClass="java.lang.String" __index="160" __sourcePath="{}/OPPORTUNITY/partnersList/partners/partner/name" containerType="SINGLE" label="name" name="name_27" type="string"/>
+<Field __index="161" __sourcePath="{}/OPPORTUNITY/partnersList/partners/partner/type" containerType="SINGLE" label="type" name="type_23" type="string"/>
+<Field __implementationClass="java.lang.String" __index="162" __sourcePath="{}/OPPORTUNITY/partnersList/partners/partnerRole/externalId" containerType="SINGLE" label="externalId" name="externalId_28" type="string"/>
+<Field __implementationClass="java.lang.String" __index="163" __sourcePath="{}/OPPORTUNITY/partnersList/partners/partnerRole/internalId" containerType="SINGLE" label="internalId" name="internalId_30" type="string"/>
+<Field __implementationClass="java.lang.String" __index="164" __sourcePath="{}/OPPORTUNITY/partnersList/partners/partnerRole/name" containerType="SINGLE" label="name" name="name_28" type="string"/>
+<Field __index="165" __sourcePath="{}/OPPORTUNITY/partnersList/partners/partnerRole/type" containerType="SINGLE" label="type" name="type_24" type="string"/>
+<Field __implementationClass="java.lang.Boolean" __index="166" __sourcePath="{}/OPPORTUNITY/partnersList/replaceAll" containerType="SINGLE" label="replaceAll" name="replaceAll_2" type="boolean"/>
+<Field __implementationClass="java.lang.Double" __index="167" __sourcePath="{}/OPPORTUNITY/probability" containerType="SINGLE" label="probability" name="probability" type="number"/>
+<Field __implementationClass="java.lang.Double" __index="168" __sourcePath="{}/OPPORTUNITY/projAltSalesAmt" containerType="SINGLE" label="projAltSalesAmt" name="projAltSalesAmt" type="number"/>
+<Field __implementationClass="java.lang.Double" __index="169" __sourcePath="{}/OPPORTUNITY/projectedTotal" containerType="SINGLE" label="projectedTotal" name="projectedTotal" type="number"/>
+<Field __implementationClass="java.lang.Double" __index="170" __sourcePath="{}/OPPORTUNITY/rangeHigh" containerType="SINGLE" label="rangeHigh" name="rangeHigh" type="number"/>
+<Field __implementationClass="java.lang.Double" __index="171" __sourcePath="{}/OPPORTUNITY/rangeLow" containerType="SINGLE" label="rangeLow" name="rangeLow" type="number"/>
+<Field __implementationClass="java.lang.String" __index="172" __sourcePath="{}/OPPORTUNITY/salesGroup/externalId" containerType="SINGLE" label="externalId" name="externalId_29" type="string"/>
+<Field __implementationClass="java.lang.String" __index="173" __sourcePath="{}/OPPORTUNITY/salesGroup/internalId" containerType="SINGLE" label="internalId" name="internalId_31" type="string"/>
+<Field __implementationClass="java.lang.String" __index="174" __sourcePath="{}/OPPORTUNITY/salesGroup/name" containerType="SINGLE" label="name" name="name_29" type="string"/>
+<Field __index="175" __sourcePath="{}/OPPORTUNITY/salesGroup/type" containerType="SINGLE" label="type" name="type_25" type="string"/>
+<Field __implementationClass="java.lang.String" __index="176" __sourcePath="{}/OPPORTUNITY/salesReadiness/externalId" containerType="SINGLE" label="externalId" name="externalId_30" type="string"/>
+<Field __implementationClass="java.lang.String" __index="177" __sourcePath="{}/OPPORTUNITY/salesReadiness/internalId" containerType="SINGLE" label="internalId" name="internalId_32" type="string"/>
+<Field __implementationClass="java.lang.String" __index="178" __sourcePath="{}/OPPORTUNITY/salesReadiness/name" containerType="SINGLE" label="name" name="name_30" type="string"/>
+<Field __index="179" __sourcePath="{}/OPPORTUNITY/salesReadiness/type" containerType="SINGLE" label="type" name="type_26" type="string"/>
+<Field __implementationClass="java.lang.String" __index="180" __sourcePath="{}/OPPORTUNITY/salesRep/externalId" containerType="SINGLE" label="externalId" name="externalId_31" type="string"/>
+<Field __implementationClass="java.lang.String" __index="181" __sourcePath="{}/OPPORTUNITY/salesRep/internalId" containerType="SINGLE" label="internalId" name="internalId_33" type="string"/>
+<Field __implementationClass="java.lang.String" __index="182" __sourcePath="{}/OPPORTUNITY/salesRep/name" containerType="SINGLE" label="name" name="name_31" type="string"/>
+<Field __index="183" __sourcePath="{}/OPPORTUNITY/salesRep/type" containerType="SINGLE" label="type" name="type_27" type="string"/>
+<Field __implementationClass="java.lang.Boolean" __index="184" __sourcePath="{}/OPPORTUNITY/salesTeamList/replaceAll" containerType="SINGLE" label="replaceAll" name="replaceAll_3" type="boolean"/>
+<Field __implementationClass="java.lang.Double" __index="185" __sourcePath="{}/OPPORTUNITY/salesTeamList/salesTeam/contribution" containerType="SINGLE" label="contribution" name="contribution_1" type="number"/>
+<Field __implementationClass="java.lang.String" __index="186" __sourcePath="{}/OPPORTUNITY/salesTeamList/salesTeam/employee/externalId" containerType="SINGLE" label="externalId" name="externalId_32" type="string"/>
+<Field __implementationClass="java.lang.String" __index="187" __sourcePath="{}/OPPORTUNITY/salesTeamList/salesTeam/employee/internalId" containerType="SINGLE" label="internalId" name="internalId_34" type="string"/>
+<Field __implementationClass="java.lang.String" __index="188" __sourcePath="{}/OPPORTUNITY/salesTeamList/salesTeam/employee/name" containerType="SINGLE" label="name" name="name_32" type="string"/>
+<Field __index="189" __sourcePath="{}/OPPORTUNITY/salesTeamList/salesTeam/employee/type" containerType="SINGLE" label="type" name="type_28" type="string"/>
+<Field __implementationClass="java.lang.Boolean" __index="190" __sourcePath="{}/OPPORTUNITY/salesTeamList/salesTeam/isPrimary" containerType="SINGLE" label="isPrimary" name="isPrimary_1" type="boolean"/>
+<Field __implementationClass="java.lang.String" __index="191" __sourcePath="{}/OPPORTUNITY/salesTeamList/salesTeam/salesRole/externalId" containerType="SINGLE" label="externalId" name="externalId_33" type="string"/>
+<Field __implementationClass="java.lang.String" __index="192" __sourcePath="{}/OPPORTUNITY/salesTeamList/salesTeam/salesRole/internalId" containerType="SINGLE" label="internalId" name="internalId_35" type="string"/>
+<Field __implementationClass="java.lang.String" __index="193" __sourcePath="{}/OPPORTUNITY/salesTeamList/salesTeam/salesRole/name" containerType="SINGLE" label="name" name="name_33" type="string"/>
+<Field __index="194" __sourcePath="{}/OPPORTUNITY/salesTeamList/salesTeam/salesRole/type" containerType="SINGLE" label="type" name="type_29" type="string"/>
+<Field __implementationClass="java.lang.String" __index="195" __sourcePath="{}/OPPORTUNITY/shipAddress" containerType="SINGLE" label="shipAddress" name="shipAddress" type="string"/>
+<Field __implementationClass="java.lang.String" __index="196" __sourcePath="{}/OPPORTUNITY/shipAddressList/externalId" containerType="SINGLE" label="externalId" name="externalId_34" type="string"/>
+<Field __implementationClass="java.lang.String" __index="197" __sourcePath="{}/OPPORTUNITY/shipAddressList/internalId" containerType="SINGLE" label="internalId" name="internalId_36" type="string"/>
+<Field __implementationClass="java.lang.String" __index="198" __sourcePath="{}/OPPORTUNITY/shipAddressList/name" containerType="SINGLE" label="name" name="name_34" type="string"/>
+<Field __index="199" __sourcePath="{}/OPPORTUNITY/shipAddressList/type" containerType="SINGLE" label="type" name="type_30" type="string"/>
+<Field __implementationClass="java.lang.String" __index="200" __sourcePath="{}/OPPORTUNITY/source" containerType="SINGLE" label="source" name="source" type="string"/>
+<Field __implementationClass="java.lang.String" __index="201" __sourcePath="{}/OPPORTUNITY/status" containerType="SINGLE" label="status" name="status" type="string"/>
+<Field __implementationClass="java.lang.String" __index="202" __sourcePath="{}/OPPORTUNITY/subsidiary/externalId" containerType="SINGLE" label="externalId" name="externalId_35" type="string"/>
+<Field __implementationClass="java.lang.String" __index="203" __sourcePath="{}/OPPORTUNITY/subsidiary/internalId" containerType="SINGLE" label="internalId" name="internalId_37" type="string"/>
+<Field __implementationClass="java.lang.String" __index="204" __sourcePath="{}/OPPORTUNITY/subsidiary/name" containerType="SINGLE" label="name" name="name_35" type="string"/>
+<Field __index="205" __sourcePath="{}/OPPORTUNITY/subsidiary/type" containerType="SINGLE" label="type" name="type_31" type="string"/>
+<Field __implementationClass="java.lang.Boolean" __index="206" __sourcePath="{}/OPPORTUNITY/syncPartnerTeams" containerType="SINGLE" label="syncPartnerTeams" name="syncPartnerTeams" type="boolean"/>
+<Field __implementationClass="java.lang.Boolean" __index="207" __sourcePath="{}/OPPORTUNITY/syncSalesTeams" containerType="SINGLE" label="syncSalesTeams" name="syncSalesTeams" type="boolean"/>
+<Field __implementationClass="java.lang.Double" __index="208" __sourcePath="{}/OPPORTUNITY/tax2Total" containerType="SINGLE" label="tax2Total" name="tax2Total" type="number"/>
+<Field __implementationClass="java.lang.Double" __index="209" __sourcePath="{}/OPPORTUNITY/taxTotal" containerType="SINGLE" label="taxTotal" name="taxTotal" type="number"/>
+<Field __implementationClass="java.lang.String" __index="210" __sourcePath="{}/OPPORTUNITY/title" containerType="SINGLE" label="title" name="title" type="string"/>
+<Field __implementationClass="java.lang.Double" __index="211" __sourcePath="{}/OPPORTUNITY/totalCostEstimate" containerType="SINGLE" label="totalCostEstimate" name="totalCostEstimate" type="number"/>
+<Field __dmType="Calendar" __implementationClass="javax.xml.datatype.XMLGregorianCalendar" __index="212" __sourcePath="{}/OPPORTUNITY/tranDate" containerType="SINGLE" label="tranDate" name="tranDate" type="string"/>
+<Field __implementationClass="java.lang.String" __index="213" __sourcePath="{}/OPPORTUNITY/tranId" containerType="SINGLE" label="tranId" name="tranId" type="string"/>
+<Field __implementationClass="java.lang.String" __index="214" __sourcePath="{}/OPPORTUNITY/transactionBillAddress/billAddr1" containerType="SINGLE" label="billAddr1" name="billAddr1" type="string"/>
+<Field __implementationClass="java.lang.String" __index="215" __sourcePath="{}/OPPORTUNITY/transactionBillAddress/billAddr2" containerType="SINGLE" label="billAddr2" name="billAddr2" type="string"/>
+<Field __implementationClass="java.lang.String" __index="216" __sourcePath="{}/OPPORTUNITY/transactionBillAddress/billAddr3" containerType="SINGLE" label="billAddr3" name="billAddr3" type="string"/>
+<Field __implementationClass="java.lang.String" __index="217" __sourcePath="{}/OPPORTUNITY/transactionBillAddress/billAddressee" containerType="SINGLE" label="billAddressee" name="billAddressee" type="string"/>
+<Field __implementationClass="java.lang.String" __index="218" __sourcePath="{}/OPPORTUNITY/transactionBillAddress/billAttention" containerType="SINGLE" label="billAttention" name="billAttention" type="string"/>
+<Field __implementationClass="java.lang.String" __index="219" __sourcePath="{}/OPPORTUNITY/transactionBillAddress/billCity" containerType="SINGLE" label="billCity" name="billCity" type="string"/>
+<Field __index="220" __sourcePath="{}/OPPORTUNITY/transactionBillAddress/billCountry" containerType="SINGLE" label="billCountry" name="billCountry" type="string"/>
+<Field __implementationClass="java.lang.String" __index="221" __sourcePath="{}/OPPORTUNITY/transactionBillAddress/billPhone" containerType="SINGLE" label="billPhone" name="billPhone" type="string"/>
+<Field __implementationClass="java.lang.String" __index="222" __sourcePath="{}/OPPORTUNITY/transactionBillAddress/billState" containerType="SINGLE" label="billState" name="billState" type="string"/>
+<Field __implementationClass="java.lang.String" __index="223" __sourcePath="{}/OPPORTUNITY/transactionBillAddress/billZip" containerType="SINGLE" label="billZip" name="billZip" type="string"/>
+<Field __implementationClass="java.lang.String" __index="224" __sourcePath="{}/OPPORTUNITY/transactionShipAddress/shipAddr1" containerType="SINGLE" label="shipAddr1" name="shipAddr1" type="string"/>
+<Field __implementationClass="java.lang.String" __index="225" __sourcePath="{}/OPPORTUNITY/transactionShipAddress/shipAddr2" containerType="SINGLE" label="shipAddr2" name="shipAddr2" type="string"/>
+<Field __implementationClass="java.lang.String" __index="226" __sourcePath="{}/OPPORTUNITY/transactionShipAddress/shipAddr3" containerType="SINGLE" label="shipAddr3" name="shipAddr3" type="string"/>
+<Field __implementationClass="java.lang.String" __index="227" __sourcePath="{}/OPPORTUNITY/transactionShipAddress/shipAddressee" containerType="SINGLE" label="shipAddressee" name="shipAddressee" type="string"/>
+<Field __implementationClass="java.lang.String" __index="228" __sourcePath="{}/OPPORTUNITY/transactionShipAddress/shipAttention" containerType="SINGLE" label="shipAttention" name="shipAttention" type="string"/>
+<Field __implementationClass="java.lang.String" __index="229" __sourcePath="{}/OPPORTUNITY/transactionShipAddress/shipCity" containerType="SINGLE" label="shipCity" name="shipCity" type="string"/>
+<Field __index="230" __sourcePath="{}/OPPORTUNITY/transactionShipAddress/shipCountry" containerType="SINGLE" label="shipCountry" name="shipCountry" type="string"/>
+<Field __implementationClass="java.lang.Boolean" __index="231" __sourcePath="{}/OPPORTUNITY/transactionShipAddress/shipIsResidential" containerType="SINGLE" label="shipIsResidential" name="shipIsResidential" type="boolean"/>
+<Field __implementationClass="java.lang.String" __index="232" __sourcePath="{}/OPPORTUNITY/transactionShipAddress/shipPhone" containerType="SINGLE" label="shipPhone" name="shipPhone" type="string"/>
+<Field __implementationClass="java.lang.String" __index="233" __sourcePath="{}/OPPORTUNITY/transactionShipAddress/shipState" containerType="SINGLE" label="shipState" name="shipState" type="string"/>
+<Field __implementationClass="java.lang.String" __index="234" __sourcePath="{}/OPPORTUNITY/transactionShipAddress/shipZip" containerType="SINGLE" label="shipZip" name="shipZip" type="string"/>
+<Field __implementationClass="java.lang.String" __index="235" __sourcePath="{}/OPPORTUNITY/vatRegNum" containerType="SINGLE" label="vatRegNum" name="vatRegNum" type="string"/>
+<Field __implementationClass="java.lang.Double" __index="236" __sourcePath="{}/OPPORTUNITY/weightedTotal" containerType="SINGLE" label="weightedTotal" name="weightedTotal" type="number"/>
+<Field __implementationClass="java.lang.String" __index="237" __sourcePath="{}/OPPORTUNITY/winLossReason/externalId" containerType="SINGLE" label="externalId" name="externalId_36" type="string"/>
+<Field __implementationClass="java.lang.String" __index="238" __sourcePath="{}/OPPORTUNITY/winLossReason/internalId" containerType="SINGLE" label="internalId" name="internalId_38" type="string"/>
+<Field __implementationClass="java.lang.String" __index="239" __sourcePath="{}/OPPORTUNITY/winLossReason/name" containerType="SINGLE" label="name" name="name_36" type="string"/>
+<Field __index="240" __sourcePath="{}/OPPORTUNITY/winLossReason/type" containerType="SINGLE" label="type" name="type_32" type="string"/>
+</Record>
+</Metadata>
+<Metadata _type="Lookup" id="5240e7b7-fcf9-47ed-926d-4c865ab23c64">
+<Record fieldDelimiter="," name="StageToStatus" recordDelimiter="&#10;" type="delimited">
+<Field containerType="SINGLE" label="Stage" name="Stage" type="string"/>
+<Field containerType="SINGLE" label="Status" name="Status" type="string"/>
+</Record>
+</Metadata>
+<LookupTable id="StageToStatus" key="Stage" metadata="5240e7b7-fcf9-47ed-926d-4c865ab23c64" name="StageToStatus" type="simpleLookup">
+<attr name="lookupType"><![CDATA[UserDefined]]></attr>
+<attr name="data"><![CDATA[Closed Won,Closed Won
+Closed Lost,Closed Lost
+Negotiation/Review,Purchasing
+Proposal/Price Quote,In Negotiation
+Needs Analysis,In Discussion
+Qualification,Opportunity Identified
+]]></attr>
+</LookupTable>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+<Entry dictval.__javaType="java.lang.String" id="DictionaryEntry2" input="true" name="Stage" output="false" type="string"/>
+<Entry dictval.__javaType="java.lang.String" id="DictionaryEntry3" input="true" name="defaultStatus" output="false" type="string"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node enabled="enabled" fileURL="dict:inputPayload" guiName="Map&lt;k,v&gt; READER" guiX="20" guiY="20" id="BEAN_READER0" type="BEAN_READER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context outPort="0" sequenceField="__id" xpath=".">
+  <Mapping cloverField="Name" trim="true" xpath="Name"/>
+  <Mapping cloverField="Id" trim="true" xpath="Id"/>
+  <Mapping cloverField="CloseDate" trim="true" xpath="CloseDate"/>
+  <Mapping cloverField="StageName" trim="true" xpath="StageName"/>
+  <Mapping cloverField="Probability" trim="true" xpath="Probability"/>
+</Context>
+]]></attr>
+<attr name="_data_format"><![CDATA[MAP]]></attr>
+</Node>
+<Node enabled="enabled" guiName="Foreach 'Opportunity' -&gt; 'OPPORTUNITY'" guiX="460" guiY="20" id="FOREACH_OPPORTUNITY_OPPORTUNITY" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+
+output.title = input.Name;
+output.externalId_13 = input.Id;
+output.closeDate = (isnull(input.CloseDate) ? null : str2calendar(input.CloseDate, "yyyy-MM-dd"));
+output.probability = str2double(input.Probability);
+]]></attr>
+</Node>
+<Node enabled="enabled" fileURL="dict:outputPayload" guiName="Map&lt;k,v&gt; WRITER" guiX="900" guiY="20" id="MAP_WRITER0" type="MAP_WRITER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<OPPORTUNITY xmlns:clover="http://www.cloveretl.com/ns/xmlmapping" clover:inPort="0">
+  <actionItem clover:dataType="java.lang.String">$0.actionItem</actionItem>
+  <altSalesRangeHigh clover:dataType="java.lang.Double">$0.altSalesRangeHigh</altSalesRangeHigh>
+  <altSalesRangeLow clover:dataType="java.lang.Double">$0.altSalesRangeLow</altSalesRangeLow>
+  <billAddress clover:dataType="java.lang.String">$0.billAddress</billAddress>
+  <billAddressList>
+    <externalId clover:dataType="java.lang.String">$0.externalId</externalId>
+    <internalId clover:dataType="java.lang.String">$0.internalId</internalId>
+    <name clover:dataType="java.lang.String">$0.name</name>
+    <type>$0.type</type>
+  </billAddressList>
+  <buyingReason>
+    <externalId clover:dataType="java.lang.String">$0.externalId_1</externalId>
+    <internalId clover:dataType="java.lang.String">$0.internalId_1</internalId>
+    <name clover:dataType="java.lang.String">$0.name_1</name>
+    <type>$0.type_1</type>
+  </buyingReason>
+  <buyingTimeFrame>
+    <externalId clover:dataType="java.lang.String">$0.externalId_2</externalId>
+    <internalId clover:dataType="java.lang.String">$0.internalId_2</internalId>
+    <name clover:dataType="java.lang.String">$0.name_2</name>
+    <type>$0.type_2</type>
+  </buyingTimeFrame>
+  <clazz>
+    <externalId clover:dataType="java.lang.String">$0.externalId_3</externalId>
+    <internalId clover:dataType="java.lang.String">$0.internalId_3</internalId>
+    <name clover:dataType="java.lang.String">$0.name_3</name>
+    <type>$0.type_3</type>
+  </clazz>
+  <closeDate clover:dataType="javax.xml.datatype.XMLGregorianCalendar">$0.closeDate</closeDate>
+  <competitorsList>
+    <competitors>
+      <competitor>
+        <externalId clover:dataType="java.lang.String">$0.externalId_4</externalId>
+        <internalId clover:dataType="java.lang.String">$0.internalId_4</internalId>
+        <name clover:dataType="java.lang.String">$0.name_4</name>
+        <type>$0.type_4</type>
+      </competitor>
+      <notes clover:dataType="java.lang.String">$0.notes</notes>
+      <strategy clover:dataType="java.lang.String">$0.strategy</strategy>
+      <url clover:dataType="java.lang.String">$0.url</url>
+      <winner clover:dataType="java.lang.Boolean">$0.winner</winner>
+    </competitors>
+    <replaceAll clover:dataType="java.lang.Boolean">$0.replaceAll</replaceAll>
+  </competitorsList>
+  <contribPct clover:dataType="java.lang.String">$0.contribPct</contribPct>
+  <createdDate clover:dataType="javax.xml.datatype.XMLGregorianCalendar">$0.createdDate</createdDate>
+  <currency>
+    <externalId clover:dataType="java.lang.String">$0.externalId_5</externalId>
+    <internalId clover:dataType="java.lang.String">$0.internalId_5</internalId>
+    <name clover:dataType="java.lang.String">$0.name_5</name>
+    <type>$0.type_5</type>
+  </currency>
+  <currencyName clover:dataType="java.lang.String">$0.currencyName</currencyName>
+  <customFieldList>
+    <customField>
+      <clover:element clover:name="SelectCustomFieldRef__3141__custcol_pfc_wo">
+        <externalId clover:dataType="java.lang.String">$0.externalId_6</externalId>
+        <internalId clover:dataType="java.lang.String">$0.internalId_6</internalId>
+        <name clover:dataType="java.lang.String">$0.name_6</name>
+        <typeId clover:dataType="java.lang.String">$0.typeId</typeId>
+      </clover:element>
+      <clover:element clover:name="DoubleCustomFieldRef__8__custcol4" clover:dataType="java.math.BigDecimal">$0.DoubleCustomFieldRef__8__custcol4</clover:element>
+      <clover:element clover:name="SelectCustomFieldRef__3139__custcol_pfc_configuration">
+        <externalId clover:dataType="java.lang.String">$0.externalId_7</externalId>
+        <internalId clover:dataType="java.lang.String">$0.internalId_7</internalId>
+        <name clover:dataType="java.lang.String">$0.name_7</name>
+        <typeId clover:dataType="java.lang.String">$0.typeId_1</typeId>
+      </clover:element>
+      <clover:element clover:name="StringCustomFieldRef__7__custcol3" clover:dataType="java.lang.String">$0.StringCustomFieldRef__7__custcol3</clover:element>
+      <clover:element clover:name="SelectCustomFieldRef__3142__custbody_pfc_pfitemid">
+        <externalId clover:dataType="java.lang.String">$0.externalId_8</externalId>
+        <internalId clover:dataType="java.lang.String">$0.internalId_8</internalId>
+        <name clover:dataType="java.lang.String">$0.name_8</name>
+        <typeId clover:dataType="java.lang.String">$0.typeId_2</typeId>
+      </clover:element>
+      <clover:element clover:name="BooleanCustomFieldRef__3140__custcol_pfc_pfconfigurator" clover:dataType="java.lang.Boolean">$0.BooleanCustomFieldRef__3140__custcol_pfc_pfconfigurator</clover:element>
+      <clover:element clover:name="StringCustomFieldRef__3152__custcol8" clover:dataType="java.lang.String">$0.StringCustomFieldRef__3152__custcol8</clover:element>
+    </customField>
+  </customFieldList>
+  <customForm>
+    <externalId clover:dataType="java.lang.String">$0.externalId_9</externalId>
+    <internalId clover:dataType="java.lang.String">$0.internalId_9</internalId>
+    <name clover:dataType="java.lang.String">$0.name_9</name>
+    <type>$0.type_6</type>
+  </customForm>
+  <daysOpen clover:dataType="java.lang.Long">$0.daysOpen</daysOpen>
+  <department>
+    <externalId clover:dataType="java.lang.String">$0.externalId_10</externalId>
+    <internalId clover:dataType="java.lang.String">$0.internalId_10</internalId>
+    <name clover:dataType="java.lang.String">$0.name_10</name>
+    <type>$0.type_7</type>
+  </department>
+  <entity>
+    <externalId clover:dataType="java.lang.String">$0.externalId_11</externalId>
+    <internalId clover:dataType="java.lang.String">$0.internalId_11</internalId>
+    <name clover:dataType="java.lang.String">$0.name_11</name>
+    <type>$0.type_8</type>
+  </entity>
+  <entityStatus>
+    <externalId clover:dataType="java.lang.String">$0.externalId_12</externalId>
+    <internalId clover:dataType="java.lang.String">$0.internalId_12</internalId>
+    <name clover:dataType="java.lang.String">$0.name_12</name>
+    <type>$0.type_9</type>
+  </entityStatus>
+  <estGrossProfit clover:dataType="java.lang.Double">$0.estGrossProfit</estGrossProfit>
+  <estGrossProfitPercent clover:dataType="java.lang.Double">$0.estGrossProfitPercent</estGrossProfitPercent>
+  <estimatedBudget clover:dataType="java.lang.Double">$0.estimatedBudget</estimatedBudget>
+  <exchangeRate clover:dataType="java.lang.Double">$0.exchangeRate</exchangeRate>
+  <expectedCloseDate clover:dataType="javax.xml.datatype.XMLGregorianCalendar">$0.expectedCloseDate</expectedCloseDate>
+  <externalId clover:dataType="java.lang.String">$0.externalId_13</externalId>
+  <forecastType>
+    <externalId clover:dataType="java.lang.String">$0.externalId_14</externalId>
+    <internalId clover:dataType="java.lang.String">$0.internalId_13</internalId>
+    <name clover:dataType="java.lang.String">$0.name_13</name>
+    <type>$0.type_10</type>
+  </forecastType>
+  <internalId clover:dataType="java.lang.String">$0.internalId_14</internalId>
+  <isBudgetApproved clover:dataType="java.lang.Boolean">$0.isBudgetApproved</isBudgetApproved>
+  <itemList>
+    <item>
+      <altSalesAmt clover:dataType="java.lang.Double">$0.altSalesAmt</altSalesAmt>
+      <amount clover:dataType="java.lang.Double">$0.amount</amount>
+      <clazz>
+        <externalId clover:dataType="java.lang.String">$0.externalId_15</externalId>
+        <internalId clover:dataType="java.lang.String">$0.internalId_15</internalId>
+        <name clover:dataType="java.lang.String">$0.name_14</name>
+        <type>$0.type_11</type>
+      </clazz>
+      <costEstimate clover:dataType="java.lang.Double">$0.costEstimate</costEstimate>
+      <costEstimateType>$0.costEstimateType</costEstimateType>
+      <customFieldList>
+        <customField>
+          <internalId clover:dataType="java.lang.String">$0.internalId_16</internalId>
+          <scriptId clover:dataType="java.lang.String">$0.scriptId</scriptId>
+        </customField>
+      </customFieldList>
+      <department>
+        <externalId clover:dataType="java.lang.String">$0.externalId_16</externalId>
+        <internalId clover:dataType="java.lang.String">$0.internalId_17</internalId>
+        <name clover:dataType="java.lang.String">$0.name_15</name>
+        <type>$0.type_12</type>
+      </department>
+      <description clover:dataType="java.lang.String">$0.description</description>
+      <expectedShipDate clover:dataType="javax.xml.datatype.XMLGregorianCalendar">$0.expectedShipDate</expectedShipDate>
+      <fromJob clover:dataType="java.lang.Boolean">$0.fromJob</fromJob>
+      <grossAmt clover:dataType="java.lang.Double">$0.grossAmt</grossAmt>
+      <isEstimate clover:dataType="java.lang.Boolean">$0.isEstimate</isEstimate>
+      <item>
+        <externalId clover:dataType="java.lang.String">$0.externalId_17</externalId>
+        <internalId clover:dataType="java.lang.String">$0.internalId_18</internalId>
+        <name clover:dataType="java.lang.String">$0.name_16</name>
+        <type>$0.type_13</type>
+      </item>
+      <job>
+        <externalId clover:dataType="java.lang.String">$0.externalId_18</externalId>
+        <internalId clover:dataType="java.lang.String">$0.internalId_19</internalId>
+        <name clover:dataType="java.lang.String">$0.name_17</name>
+        <type>$0.type_14</type>
+      </job>
+      <line clover:dataType="java.lang.Long">$0.line</line>
+      <location>
+        <externalId clover:dataType="java.lang.String">$0.externalId_19</externalId>
+        <internalId clover:dataType="java.lang.String">$0.internalId_20</internalId>
+        <name clover:dataType="java.lang.String">$0.name_18</name>
+        <type>$0.type_15</type>
+      </location>
+      <options>
+        <customField>
+          <internalId clover:dataType="java.lang.String">$0.internalId_21</internalId>
+          <scriptId clover:dataType="java.lang.String">$0.scriptId_1</scriptId>
+        </customField>
+      </options>
+      <price>
+        <externalId clover:dataType="java.lang.String">$0.externalId_20</externalId>
+        <internalId clover:dataType="java.lang.String">$0.internalId_22</internalId>
+        <name clover:dataType="java.lang.String">$0.name_19</name>
+        <type>$0.type_16</type>
+      </price>
+      <quantity clover:dataType="java.lang.Double">$0.quantity</quantity>
+      <quantityAvailable clover:dataType="java.lang.Double">$0.quantityAvailable</quantityAvailable>
+      <quantityOnHand clover:dataType="java.lang.Double">$0.quantityOnHand</quantityOnHand>
+      <rate clover:dataType="java.lang.String">$0.rate</rate>
+      <revRecTermInMonths clover:dataType="java.lang.Long">$0.revRecTermInMonths</revRecTermInMonths>
+      <tax1Amt clover:dataType="java.lang.Double">$0.tax1Amt</tax1Amt>
+      <taxCode>
+        <externalId clover:dataType="java.lang.String">$0.externalId_21</externalId>
+        <internalId clover:dataType="java.lang.String">$0.internalId_23</internalId>
+        <name clover:dataType="java.lang.String">$0.name_20</name>
+        <type>$0.type_17</type>
+      </taxCode>
+      <taxRate1 clover:dataType="java.lang.Double">$0.taxRate1</taxRate1>
+      <taxRate2 clover:dataType="java.lang.Double">$0.taxRate2</taxRate2>
+      <units>
+        <externalId clover:dataType="java.lang.String">$0.externalId_22</externalId>
+        <internalId clover:dataType="java.lang.String">$0.internalId_24</internalId>
+        <name clover:dataType="java.lang.String">$0.name_21</name>
+        <type>$0.type_18</type>
+      </units>
+    </item>
+    <replaceAll clover:dataType="java.lang.Boolean">$0.replaceAll_1</replaceAll>
+  </itemList>
+  <job>
+    <externalId clover:dataType="java.lang.String">$0.externalId_23</externalId>
+    <internalId clover:dataType="java.lang.String">$0.internalId_25</internalId>
+    <name clover:dataType="java.lang.String">$0.name_22</name>
+    <type>$0.type_19</type>
+  </job>
+  <lastModifiedDate clover:dataType="javax.xml.datatype.XMLGregorianCalendar">$0.lastModifiedDate</lastModifiedDate>
+  <leadSource>
+    <externalId clover:dataType="java.lang.String">$0.externalId_24</externalId>
+    <internalId clover:dataType="java.lang.String">$0.internalId_26</internalId>
+    <name clover:dataType="java.lang.String">$0.name_23</name>
+    <type>$0.type_20</type>
+  </leadSource>
+  <location>
+    <externalId clover:dataType="java.lang.String">$0.externalId_25</externalId>
+    <internalId clover:dataType="java.lang.String">$0.internalId_27</internalId>
+    <name clover:dataType="java.lang.String">$0.name_24</name>
+    <type>$0.type_21</type>
+  </location>
+  <memo clover:dataType="java.lang.String">$0.memo</memo>
+  <nullFieldList>
+    <clover:collection clover:name="name">$0.name_25</clover:collection>
+  </nullFieldList>
+  <partner>
+    <externalId clover:dataType="java.lang.String">$0.externalId_26</externalId>
+    <internalId clover:dataType="java.lang.String">$0.internalId_28</internalId>
+    <name clover:dataType="java.lang.String">$0.name_26</name>
+    <type>$0.type_22</type>
+  </partner>
+  <partnersList>
+    <partners>
+      <contribution clover:dataType="java.lang.Double">$0.contribution</contribution>
+      <isPrimary clover:dataType="java.lang.Boolean">$0.isPrimary</isPrimary>
+      <partner>
+        <externalId clover:dataType="java.lang.String">$0.externalId_27</externalId>
+        <internalId clover:dataType="java.lang.String">$0.internalId_29</internalId>
+        <name clover:dataType="java.lang.String">$0.name_27</name>
+        <type>$0.type_23</type>
+      </partner>
+      <partnerRole>
+        <externalId clover:dataType="java.lang.String">$0.externalId_28</externalId>
+        <internalId clover:dataType="java.lang.String">$0.internalId_30</internalId>
+        <name clover:dataType="java.lang.String">$0.name_28</name>
+        <type>$0.type_24</type>
+      </partnerRole>
+    </partners>
+    <replaceAll clover:dataType="java.lang.Boolean">$0.replaceAll_2</replaceAll>
+  </partnersList>
+  <probability clover:dataType="java.lang.Double">$0.probability</probability>
+  <projAltSalesAmt clover:dataType="java.lang.Double">$0.projAltSalesAmt</projAltSalesAmt>
+  <projectedTotal clover:dataType="java.lang.Double">$0.projectedTotal</projectedTotal>
+  <rangeHigh clover:dataType="java.lang.Double">$0.rangeHigh</rangeHigh>
+  <rangeLow clover:dataType="java.lang.Double">$0.rangeLow</rangeLow>
+  <salesGroup>
+    <externalId clover:dataType="java.lang.String">$0.externalId_29</externalId>
+    <internalId clover:dataType="java.lang.String">$0.internalId_31</internalId>
+    <name clover:dataType="java.lang.String">$0.name_29</name>
+    <type>$0.type_25</type>
+  </salesGroup>
+  <salesReadiness>
+    <externalId clover:dataType="java.lang.String">$0.externalId_30</externalId>
+    <internalId clover:dataType="java.lang.String">$0.internalId_32</internalId>
+    <name clover:dataType="java.lang.String">$0.name_30</name>
+    <type>$0.type_26</type>
+  </salesReadiness>
+  <salesRep>
+    <externalId clover:dataType="java.lang.String">$0.externalId_31</externalId>
+    <internalId clover:dataType="java.lang.String">$0.internalId_33</internalId>
+    <name clover:dataType="java.lang.String">$0.name_31</name>
+    <type>$0.type_27</type>
+  </salesRep>
+  <salesTeamList>
+    <replaceAll clover:dataType="java.lang.Boolean">$0.replaceAll_3</replaceAll>
+    <salesTeam>
+      <contribution clover:dataType="java.lang.Double">$0.contribution_1</contribution>
+      <employee>
+        <externalId clover:dataType="java.lang.String">$0.externalId_32</externalId>
+        <internalId clover:dataType="java.lang.String">$0.internalId_34</internalId>
+        <name clover:dataType="java.lang.String">$0.name_32</name>
+        <type>$0.type_28</type>
+      </employee>
+      <isPrimary clover:dataType="java.lang.Boolean">$0.isPrimary_1</isPrimary>
+      <salesRole>
+        <externalId clover:dataType="java.lang.String">$0.externalId_33</externalId>
+        <internalId clover:dataType="java.lang.String">$0.internalId_35</internalId>
+        <name clover:dataType="java.lang.String">$0.name_33</name>
+        <type>$0.type_29</type>
+      </salesRole>
+    </salesTeam>
+  </salesTeamList>
+  <shipAddress clover:dataType="java.lang.String">$0.shipAddress</shipAddress>
+  <shipAddressList>
+    <externalId clover:dataType="java.lang.String">$0.externalId_34</externalId>
+    <internalId clover:dataType="java.lang.String">$0.internalId_36</internalId>
+    <name clover:dataType="java.lang.String">$0.name_34</name>
+    <type>$0.type_30</type>
+  </shipAddressList>
+  <source clover:dataType="java.lang.String">$0.source</source>
+  <status clover:dataType="java.lang.String">$0.status</status>
+  <subsidiary>
+    <externalId clover:dataType="java.lang.String">$0.externalId_35</externalId>
+    <internalId clover:dataType="java.lang.String">$0.internalId_37</internalId>
+    <name clover:dataType="java.lang.String">$0.name_35</name>
+    <type>$0.type_31</type>
+  </subsidiary>
+  <syncPartnerTeams clover:dataType="java.lang.Boolean">$0.syncPartnerTeams</syncPartnerTeams>
+  <syncSalesTeams clover:dataType="java.lang.Boolean">$0.syncSalesTeams</syncSalesTeams>
+  <tax2Total clover:dataType="java.lang.Double">$0.tax2Total</tax2Total>
+  <taxTotal clover:dataType="java.lang.Double">$0.taxTotal</taxTotal>
+  <title clover:dataType="java.lang.String">$0.title</title>
+  <totalCostEstimate clover:dataType="java.lang.Double">$0.totalCostEstimate</totalCostEstimate>
+  <tranDate clover:dataType="javax.xml.datatype.XMLGregorianCalendar">$0.tranDate</tranDate>
+  <tranId clover:dataType="java.lang.String">$0.tranId</tranId>
+  <transactionBillAddress>
+    <billAddr1 clover:dataType="java.lang.String">$0.billAddr1</billAddr1>
+    <billAddr2 clover:dataType="java.lang.String">$0.billAddr2</billAddr2>
+    <billAddr3 clover:dataType="java.lang.String">$0.billAddr3</billAddr3>
+    <billAddressee clover:dataType="java.lang.String">$0.billAddressee</billAddressee>
+    <billAttention clover:dataType="java.lang.String">$0.billAttention</billAttention>
+    <billCity clover:dataType="java.lang.String">$0.billCity</billCity>
+    <billCountry>$0.billCountry</billCountry>
+    <billPhone clover:dataType="java.lang.String">$0.billPhone</billPhone>
+    <billState clover:dataType="java.lang.String">$0.billState</billState>
+    <billZip clover:dataType="java.lang.String">$0.billZip</billZip>
+  </transactionBillAddress>
+  <transactionShipAddress>
+    <shipAddr1 clover:dataType="java.lang.String">$0.shipAddr1</shipAddr1>
+    <shipAddr2 clover:dataType="java.lang.String">$0.shipAddr2</shipAddr2>
+    <shipAddr3 clover:dataType="java.lang.String">$0.shipAddr3</shipAddr3>
+    <shipAddressee clover:dataType="java.lang.String">$0.shipAddressee</shipAddressee>
+    <shipAttention clover:dataType="java.lang.String">$0.shipAttention</shipAttention>
+    <shipCity clover:dataType="java.lang.String">$0.shipCity</shipCity>
+    <shipCountry>$0.shipCountry</shipCountry>
+    <shipIsResidential clover:dataType="java.lang.Boolean">$0.shipIsResidential</shipIsResidential>
+    <shipPhone clover:dataType="java.lang.String">$0.shipPhone</shipPhone>
+    <shipState clover:dataType="java.lang.String">$0.shipState</shipState>
+    <shipZip clover:dataType="java.lang.String">$0.shipZip</shipZip>
+  </transactionShipAddress>
+  <vatRegNum clover:dataType="java.lang.String">$0.vatRegNum</vatRegNum>
+  <weightedTotal clover:dataType="java.lang.Double">$0.weightedTotal</weightedTotal>
+  <winLossReason>
+    <externalId clover:dataType="java.lang.String">$0.externalId_36</externalId>
+    <internalId clover:dataType="java.lang.String">$0.internalId_38</internalId>
+    <name clover:dataType="java.lang.String">$0.name_36</name>
+    <type>$0.type_32</type>
+  </winLossReason>
+</OPPORTUNITY>]]></attr>
+<attr name="_data_format"><![CDATA[MAP]]></attr>
+<attr name="__metadata"><![CDATA[true]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="BEAN_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="028372b1-3c03-41ee-8b39-922d0fdc6011" outPort="Port 0 (out)" toNode="FOREACH_OPPORTUNITY_OPPORTUNITY:0"/>
+<Edge debugMode="true" fromNode="FOREACH_OPPORTUNITY_OPPORTUNITY:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="ec26fa36-98ba-4168-887e-1bd1a0d3586f" outPort="Port 0 (out)" toNode="MAP_WRITER0:0"/>
+</Phase>
+</Graph>

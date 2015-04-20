@@ -17,8 +17,8 @@
 		<connection>scm:git:https://github.com/mulesoft/template-sfdc2nets-opportunity-migration.git</connection>
 		<developerConnection>scm:git:https://github.com/mulesoft/template-sfdc2nets-opportunity-migration.git</developerConnection>
 		<url>https://github.com/mulesoft/template-sfdc2nets-opportunity-migration</url>
-	  <tag>HEAD</tag>
-  </scm>
+		<tag>HEAD</tag>
+	</scm>
 
 	<build>
 		<plugins>
@@ -32,41 +32,47 @@
 							<groupId>org.mule.modules</groupId>
 							<artifactId>mule-module-sfdc</artifactId>
 						</inclusion>
-					<inclusion>
-                            <groupId>org.mule.modules</groupId>
-                            <artifactId>mule-module-netsuite</artifactId>
-                        </inclusion>
-                    </inclusions>
+						<inclusion>
+							<groupId>org.mule.modules</groupId>
+							<artifactId>mule-module-netsuite</artifactId>
+						</inclusion>
+					</inclusions>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 
 	<dependencies>
-		
+
 		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-module-sfdc</artifactId>
 			<version>${sfdc.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-module-spring-config</artifactId>
+			<version>${mule.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-module-http</artifactId>
+			<version>${mule.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-module-netsuite</artifactId>
+			<version>${nets.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mulesoft.muleesb.modules</groupId>
+			<artifactId>mule-module-batch-ee</artifactId>
+			<version>${mule.version}</version>
+			<scope>provided</scope>
+		</dependency>
 	<dependency>
-            <groupId>org.mule.modules</groupId>
-            <artifactId>mule-module-spring-config</artifactId>
-            <version>${mule.version}</version>
-            <scope>provided</scope>
-        </dependency>
-    <dependency>
-            <groupId>org.mule.modules</groupId>
-            <artifactId>mule-module-http</artifactId>
-            <version>${mule.version}</version>
-            <scope>provided</scope>
-        </dependency>
-    <dependency>
-            <groupId>org.mule.modules</groupId>
-            <artifactId>mule-module-netsuite</artifactId>
-            <version>${nets.version}</version>
-        </dependency>
-    <dependency>
             <groupId>com.mulesoft.muleesb.modules</groupId>
             <artifactId>mule-module-data-mapper</artifactId>
             <version>${mule.version}</version>

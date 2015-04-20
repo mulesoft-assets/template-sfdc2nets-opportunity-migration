@@ -36,8 +36,8 @@ http://www.mulesoft.org/schema/mule/netsuite http://www.mulesoft.org/schema/mule
 			initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW" />
 	</sfdc:config>
 
-	<netsuite:config account="${nets.account}" doc:name="NetSuite"
-		email="${nets.email}" name="NetsSuite" password="${nets.password}"
+	<netsuite:config account="${nets.account}" doc:name="Netsuite"
+		email="${nets.email}" name="Netsuite" password="${nets.password}"
 		roleId="${nets.roleId}">
 		<reconnect-forever />
 	</netsuite:config>

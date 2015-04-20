@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:netsuite="http://www.mulesoft.org/schema/mule/netsuite"
+<mule xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper"
+	xmlns:netsuite="http://www.mulesoft.org/schema/mule/netsuite"
 	xmlns:core="http://www.mulesoft.org/schema/mule/core" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking"
 	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
@@ -14,117 +15,113 @@ http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/m
 http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
 http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
 http://www.mulesoft.org/schema/mule/smtp http://www.mulesoft.org/schema/mule/smtp/current/mule-smtp.xsd
-http://www.mulesoft.org/schema/mule/netsuite http://www.mulesoft.org/schema/mule/netsuite/current/mule-netsuite.xsd">
+http://www.mulesoft.org/schema/mule/netsuite http://www.mulesoft.org/schema/mule/netsuite/current/mule-netsuite.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd">
+	<data-mapper:config name="Opportunity_To_OPPORTUNITY"
+		transformationGraphPath="opportunity_to_opportunity.grf" doc:name="Opportunity_To_OPPORTUNITY" />
 
 	<batch:job name="migrateOpportunitiesBatch">
 		<batch:threading-profile poolExhaustedAction="WAIT" />
 		<batch:input>
 			<sfdc:query config-ref="Salesforce"
-				query="dsql:SELECT Id, LastModifiedDate, Name, Amount, StageName, Probability, CloseDate, Account.Id, Account.Name, Account.Industry, Account.NumberOfEmployees FROM Opportunity WHERE Id = '0062000000c4nkjAAA' and Amount &gt; 500"
+				query="dsql:SELECT Id, LastModifiedDate, Name, Amount, StageName, Probability, CloseDate, Account.Id, Account.Name, Account.Industry, Account.NumberOfEmployees FROM Opportunity WHERE Amount &gt; 120000 and Account.Id &lt;&gt; null"
 				fetchSize="${page.size}" doc:name="query Opportunities from Salesforce" />
 		</batch:input>
 		<batch:process-records>
-			<batch:step name="getOpportunityInNetSuiteStep">
-				<enricher source="#[payload]" target="#[recordVars['opportunityInNetSuite']]"
-					doc:name="store result in record var 'opportunityInNetSuite'">
+			<batch:step name="getOpportunityInNetsuiteStep">
+				<enricher source="#[payload]" target="#[recordVars['opportunityInNetsuite']]"
+					doc:name="store result in record var 'opportunityInNetsuite'">
 					<processor-chain doc:name="Processor Chain">
-						<netsuite:query-records config-ref="NetSuite"
+						<netsuite:query-records config-ref="Netsuite"
 							query="dsql:SELECT department,entity,entityStatus,externalId,internalId,lastModifiedDate,leadSource,partner,status,
 subsidiary,title,tranDate,tranId,expectedCloseDate,probability
- FROM OPPORTUNITY where externalId = #[payload['Id']"
-							doc:name="query Opportunity in NetSuite" />
-						<expression-component doc:name="Expression"><![CDATA[java.util.HashMap opportunity;
+ FROM OPPORTUNITY where externalId = '#[payload['Id']]'"
+							doc:name="query Opportunity in Netsuite" />
+						<expression-component doc:name="retrieve Opportunity object"><![CDATA[java.util.HashMap opportunity;
 
 if (payload.hasNext()){
-	while (payload.hasNext()) {
-		opportunity = payload.next();
-	}
+	opportunity = payload.next();
 }
 
 payload = opportunity;]]></expression-component>
 					</processor-chain>
 				</enricher>
 			</batch:step>
-			<batch:step name="findOrCreateAccountInNetSuiteSetp">
-				<choice doc:name="Choice">
-					<when expression="#[payload['Account'] != null]">
-						<enricher source="#[payload]" target="#[flowVars['accountInNetSuite']]"
-							doc:name="store result in accountInNetSuite">
-							<netsuite:query-records config-ref="NetSuite"
-								doc:name="Netsuite"
-								query="dsql:SELECT companyName,entityId,entityStatus,externalId,internalId FROM CUSTOMER WHERE companyName = ">
-							</netsuite:query-records>
-							<!-- <sfdc:query-single config-ref="" -->
-							<!-- query="SELECT Id, Name FROM Account WHERE Name = '#[payload['Account']['Name']]'" -->
-							<!-- doc:name="query Account in NetSuite" /> -->
-						</enricher>
-						<choice doc:name="Choice">
-							<when expression="#[flowVars['accountInNetSuite'] is NullPayload]">
-								<enricher doc:name="store result in idOfAccountInNetSuite"
-									target="#[recordVars['idOfAccountInNetSuite']]">
-									<processor-chain doc:name="Processor Chain">
-										<expression-component doc:name="remove unnecessary fields"><![CDATA[payload['Account'].remove('Id');
-payload['Account'].put('NumberOfEmployees', payload['Account']['NumberOfEmployees'] == null ? 0 :  Integer.parseInt(payload['Account']['NumberOfEmployees']));]]></expression-component>
-										<set-payload value="#[ [payload['Account']]]"
-											doc:name="Set Payload" />
-										<netsuite:add-record config-ref="NetSuite"
-											recordType="CUSTOMER" doc:name="create Account in NetSuite" />
-										<expression-transformer expression="#[payload[0].getId()]"
-											doc:name="get new account id" />
-									</processor-chain>
-								</enricher>
-							</when>
-							<otherwise>
-								<enricher target="#[recordVars['idOfAccountInNetSuite']]"
-									doc:name="store result in idOfAccountInNetSuite">
-									<expression-transformer
-										expression="#[flowVars['accountInNetSuite']['Id']]" doc:name="get new account id" />
-								</enricher>
-							</otherwise>
-						</choice>
-						<expression-component doc:name="set AccountId"><![CDATA[payload['AccountId']= recordVars['idOfAccountInNetSuite'];
-]]></expression-component>
-					</when>
-					<otherwise>
-						<logger level="INFO" doc:name="Logger"
-							message="There is no Account assigned to this contact. Doing nothing" />
-					</otherwise>
-				</choice>
+			<batch:step name="getCustomerIExists">
+				<enricher source="#[payload]" target="#[recordVars['customerInNetsuite']]"
+					doc:name="store result in customerInNetsuite">
+					<processor-chain doc:name="Processor Chain">
+						<netsuite:query-records config-ref="Netsuite"
+							query="dsql:SELECT companyName,entityId,entityStatus,externalId,internalId FROM CUSTOMER WHERE companyName = '#[payload['Account']['Name']]'"
+							doc:name="query Customer in Netsuite" />
+						<expression-component doc:name="retrieve Customer object"><![CDATA[java.util.HashMap customer;
+
+if (payload.hasNext()){
+	customer = payload.next();
+}
+
+payload = customer;]]></expression-component>
+					</processor-chain>
+				</enricher>
 			</batch:step>
-			<batch:step name="createOpportunitiesInNetSuiteStep"
+			<batch:step name="createCustomerIfDoesNotExist"
+				accept-expression="#[recordVars['customerInNetsuite'] is NullPayload]">
+				<enricher target="#[recordVars['customerInNetsuite']]"
+					doc:name="store result in customerInNetsuite">
+					<processor-chain doc:name="Processor Chain">
+						<expression-component doc:name="Add subsidiary to payload"><![CDATA[import com.netsuite.webservices.platform.core_2014_1.RecordRef;
+import com.netsuite.webservices.platform.core_2014_1.types.RecordType;
+
+RecordRef subsidiaryRef = new RecordRef();
+subsidiaryRef.setType(RecordType.SUBSIDIARY);
+subsidiaryRef.setInternalId('${nets.customer.subsidiary.internalId}');
+
+payload.put("subsidiary", subsidiaryRef);]]></expression-component>
+						<netsuite:add-record config-ref="Netsuite"
+							recordType="CUSTOMER" doc:name="create Customer in Netsuite">
+							<netsuite:attributes>
+								<netsuite:attribute key="companyName">#[payload['Account']['Name']]</netsuite:attribute>
+								<netsuite:attribute key="subsidiary">#[payload['subsidiary']]</netsuite:attribute>
+							</netsuite:attributes>
+						</netsuite:add-record>
+						<logger
+							message="New Customer created in Netsuite: #[payload['internalId']]"
+							level="INFO" doc:name="log created Customer" />
+					</processor-chain>
+				</enricher>
+			</batch:step>
+			<batch:step name="createOpportunitiesInNetsuiteStep"
 				accept-expression="!(payload is NullPayload)">
-				<expression-component doc:name="Expression"><![CDATA[import com.netsuite.webservices.platform.core_2014_1.RecordRef;
+				<data-mapper:transform config-ref="Opportunity_To_OPPORTUNITY"
+					doc:name="Opportunity To OPPORTUNITY">
+					<data-mapper:input-arguments>
+						<data-mapper:input-argument key="defaultStatus">${nets.default.status}</data-mapper:input-argument>
+					</data-mapper:input-arguments>
+				</data-mapper:transform>
+				<expression-component doc:name="Add customer and customer status to payload"><![CDATA[import com.netsuite.webservices.platform.core_2014_1.RecordRef;
 import com.netsuite.webservices.platform.core_2014_1.types.RecordType;
 
 RecordRef entityRef = new RecordRef();
 entityRef.setType(RecordType.CUSTOMER);
-entityRef.setInternalId('1006');
+entityRef.setInternalId(recordVars['customerInNetsuite']['internalId']);
 
-RecordRef entityStatusRef = new RecordRef();
+RecordRef entityStatusRef = recordVars['customerInNetsuite']['entityStatus'];
 entityStatusRef.setType(RecordType.CUSTOMER_STATUS);
-entityStatusRef.setInternalId('7');
 
 payload.put("entity", entityRef);
 payload.put("entityStatus", entityStatusRef);]]></expression-component>
-				<!-- <data-mapper:transform config-ref="Opportunity_to_Opportunity_1" 
-					doc:name="Opportunity to Opportunity"/> -->
-				<!-- <data-mapper:transform config-ref="Opportunity_to_Opportunity" doc:name="Opportunity 
-					to Opportunity"/> -->
-				<batch:commit size="200" doc:name="Batch Commit">
-					<netsuite:upsert-record config-ref="NetSuite"
-						recordType="OPPORTUNITY" doc:name="upsert Opportunities in NetSuite">
-						<netsuite:attributes>
-							<netsuite:attribute key="entity">#[payload[0]['entity']]</netsuite:attribute>
-							<netsuite:attribute key="entityStatus">#[payload[0]['entityStatus']]</netsuite:attribute>
-							<netsuite:attribute key="title">upsert_test_2</netsuite:attribute>
-							<!-- <netsuite:attribute key="status">inProgress</netsuite:attribute> -->
-							<netsuite:attribute key="externalId">11111</netsuite:attribute>
-						</netsuite:attributes>
-					</netsuite:upsert-record>
-					<logger message="Upsert result: #[payload]" level="INFO"
-						doc:name="log Upsert result" />
-				</batch:commit>
+
+				<netsuite:upsert-record config-ref="Netsuite"
+					recordType="OPPORTUNITY" doc:name="upsert Opportunities in Netsuite">
+					<netsuite:attributes ref="#[payload]">
+
+					</netsuite:attributes>
+				</netsuite:upsert-record>
+				<logger
+					message="Upserted opportunity with internal ID: #[payload.getInternalId()] "
+					level="INFO" doc:name="log Upsert result" />
 			</batch:step>
+
 		</batch:process-records>
 		<batch:on-complete>
 			<scatter-gather doc:name="All">
