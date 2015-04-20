@@ -30,16 +30,15 @@ http://www.mulesoft.org/schema/mule/netsuite http://www.mulesoft.org/schema/mule
 
 	<sfdc:config name="Salesforce" username="${sfdc.username}"
 		password="${sfdc.password}" securityToken="${sfdc.securityToken}" url="${sfdc.url}"
-		doc:name="Salesforce A"
-		doc:description="One of your SalesForce instance. This is the source organization, where accounts will be migrated from.">
+		doc:name="Salesforce"
+		doc:description="Your Salesforce instance. This is the source organization, where accounts will be migrated from.">
 		<sfdc:connection-pooling-profile
 			initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW" />
 	</sfdc:config>
 
-	<netsuite:config account="${netsuite.account}"
-		doc:name="NetSuite" email="${netsuite.email}" name="NetSuite"
-		password="${netsuite.password}" roleId="${netsuite.roleId}"
-		receiveTimeout="300000" connectionTimeout="300000">
+	<netsuite:config account="${nets.account}" doc:name="NetSuite"
+		email="${nets.email}" name="NetsSuite" password="${nets.password}"
+		roleId="${nets.roleId}">
 		<reconnect-forever />
 	</netsuite:config>
 
