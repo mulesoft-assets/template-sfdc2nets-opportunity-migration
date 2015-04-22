@@ -85,12 +85,22 @@ payload.put("subsidiary", subsidiaryRef);]]></expression-component>
 							</netsuite:attributes>
 						</netsuite:add-record>
 						<logger
-							message="New Customer created in Netsuite: #[payload['internalId']]"
+							message="New Customer created in Netsuite: #[payload.getInternalId()]"
 							level="INFO" doc:name="log created Customer" />
+						<netsuite:query-records config-ref="Netsuite"
+							query="dsql:SELECT companyName,entityId,entityStatus,externalId,internalId FROM CUSTOMER WHERE internalId = '#[payload.getInternalId()]'"
+							doc:name="query created Customer in Netsuite" />
+						<expression-component doc:name="retrieve created Customer object"><![CDATA[java.util.HashMap customer;
+
+if (payload.hasNext()){
+	customer = payload.next();
+}
+
+payload = customer;]]></expression-component>
 					</processor-chain>
 				</enricher>
 			</batch:step>
-			<batch:step name="createOpportunitiesInNetsuiteStep"
+			<batch:step name="upsertOpportunitiesInNetsuiteStep"
 				accept-expression="!(payload is NullPayload)">
 				<data-mapper:transform config-ref="Opportunity_To_OPPORTUNITY"
 					doc:name="Opportunity To OPPORTUNITY">
