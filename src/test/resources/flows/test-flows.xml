@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:netsuite="http://www.mulesoft.org/schema/mule/netsuite"
+	xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.6.1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/netsuite http://www.mulesoft.org/schema/mule/netsuite/current/mule-netsuite.xsd">
+	<sub-flow name="createOpportunityFlow">
+		<sfdc:create config-ref="Salesforce" type="Opportunity"
+			doc:name="create Opportunity in Salesforce">
+			<sfdc:objects ref="#[payload]" />
+		</sfdc:create>
+		<logger level="INFO"
+			message="Create Opportunities in Salesforce result: #[payload]"
+			doc:name="Logger" />
+	</sub-flow>
+	<sub-flow name="retrieveOpportunityFlow">
+		<netsuite:query-records config-ref="Netsuite"
+			query="dsql:SELECT department,entity,entityStatus,externalId,internalId,lastModifiedDate,leadSource,partner,status,
+subsidiary,title,tranDate,tranId,expectedCloseDate,probability
+ FROM OPPORTUNITY where externalId = '#[payload['Id']]'"
+			doc:name="retrieve Opportunity in Netsuite" />
+		<expression-component doc:name="retrieve Opportunity object"><![CDATA[java.util.HashMap opportunity;
+
+if (payload.hasNext()){
+	opportunity = payload.next();
+}
+
+payload = opportunity;]]></expression-component>
+		<logger level="INFO" message="Retrieve Opportunities result: #[payload]"
+			doc:name="Logger" />
+	</sub-flow>
+	<sub-flow name="deleteOpportunitiesFromSalesforceFlow">
+		<sfdc:delete config-ref="Salesforce"
+			doc:name="delete Opportunity from Salesforce">
+			<sfdc:ids ref="#[payload]" />
+		</sfdc:delete>
+		<logger level="INFO"
+			message="Remove Opportunities from Salesforce result: #[payload]"
+			doc:name="Logger" />
+	</sub-flow>
+	<sub-flow name="deleteOpportunitiesFromNetsuiteFlow">
+		<netsuite:delete-list config-ref="Netsuite"
+			doc:name="delete Opportunity from Netsuite">
+			<netsuite:records ref="#[payload]" />
+		</netsuite:delete-list>
+        <foreach doc:name="For Each Opportunity">
+            <logger message="Remove Opportunity with ID #[payload.getBaseRef().getInternalId()] from Netsuite result: #[payload.getStatus().getIsSuccess()]" level="INFO" doc:name="Logger"/>
+        </foreach>
+	</sub-flow>
+
+	<sub-flow name="createAccountFlow">
+		<sfdc:create config-ref="Salesforce" type="Account"
+			doc:name="Salesforce">
+			<sfdc:objects ref="#[payload]" />
+		</sfdc:create>
+        <logger message="Create Account in Salesforce result: #[payload]" level="INFO" doc:name="Logger"/>
+	</sub-flow>
+	<sub-flow name="retrieveCustomerFlow">
+		<netsuite:query-records config-ref="Netsuite"
+			query="dsql:SELECT companyName,entityId,entityStatus,externalId,internalId FROM CUSTOMER WHERE companyName = '#[payload['Name']]'"
+			doc:name="Retrieve Customer from Netsuite" />
+		<expression-component doc:name="retrieve Customer object"><![CDATA[java.util.HashMap customer;
+
+if (payload.hasNext()){
+	customer = payload.next();
+}
+
+payload = customer;]]></expression-component>
+		<logger level="INFO" message="Retrieve Customer result: #[payload]"
+			doc:name="Logger" />
+	</sub-flow>
+	<sub-flow name="deleteAccountsFromSalesforceFlow">
+		<sfdc:delete config-ref="Salesforce" doc:name="Salesforce">
+			<sfdc:ids ref="#[payload]" />
+		</sfdc:delete>
+		<logger level="INFO"
+			message="Remove Accounts from Salesforce result: #[payload]"
+			doc:name="Logger" />
+	</sub-flow>
+	<sub-flow name="deleteCustomersFromNetsuiteFlow">
+		<netsuite:delete-list config-ref="Netsuite"
+			doc:name="Netsuite">
+			<netsuite:records ref="#[payload]" />
+		</netsuite:delete-list>
+        <foreach collection="#[payload]" doc:name="For Each Customer">
+            <logger message="Remove Customer with ID #[payload.getBaseRef().getInternalId()] from Netsuite result: #[payload.getStatus().getIsSuccess()]" level="INFO" doc:name="Logger"/>
+        </foreach>
+	</sub-flow>
+
+</mule>
