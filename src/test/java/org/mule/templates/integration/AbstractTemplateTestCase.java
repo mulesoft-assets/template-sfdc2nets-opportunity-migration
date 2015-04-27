@@ -38,7 +38,7 @@ public abstract class AbstractTemplateTestCase extends FunctionalTestCase {
 	private static final String TEST_FLOWS_FOLDER_PATH = "./src/test/resources/flows/";
 	private static final String MULE_DEPLOY_PROPERTIES_PATH = "./src/main/app/mule-deploy.properties";
 
-	protected static final int TIMEOUT_SEC = 300;
+	protected static final int TIMEOUT_SEC = 120;
 	protected static final String TEMPLATE_NAME = "sfdc2nets-opp-migr";
 
 	protected SubflowInterceptingChainLifecycleWrapper retrieveOpportunityFlow;

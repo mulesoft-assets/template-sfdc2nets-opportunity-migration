@@ -277,6 +277,9 @@ Qualification,Opportunity Identified
 <Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
 <Entry dictval.__javaType="java.lang.String" id="DictionaryEntry2" input="true" name="Stage" output="false" type="string"/>
 <Entry dictval.__javaType="java.lang.String" id="DictionaryEntry3" input="true" name="defaultStatus" output="false" type="string"/>
+<Entry dictval.__javaType="java.lang.Boolean" id="DictionaryEntry4" input="true" name="existsInNetsuite" output="false" type="boolean"/>
+<Entry dictval.__javaType="java.lang.String" id="DictionaryEntry5" input="true" name="entityStatusInternalId" output="false" type="string"/>
+<Entry dictval.__javaType="java.lang.String" id="DictionaryEntry6" input="true" name="entityInternalId" output="false" type="string"/>
 </Dictionary>
 </Global>
 <Phase number="0">
@@ -302,7 +305,12 @@ output.title = input.Name;
 output.externalId_13 = input.Id;
 output.closeDate = (isnull(input.CloseDate) ? null : str2calendar(input.CloseDate, "yyyy-MM-dd"));
 output.probability = str2double(input.Probability);
-]]></attr>
+output.expectedCloseDate = (isnull(input.CloseDate) ? null : str2calendar(input.CloseDate, "yyyy-MM-dd"));
+if (!inputArguments.existsInNetsuite) output.status = (isnull(lookup(StageToStatus).get([input.StageName])) ? inputArguments.defaultStatus : lookup(StageToStatus).get([input.StageName]).Status);
+output.type_8 = 'CUSTOMER';
+output.internalId_11 = inputArguments.entityInternalId;
+output.type_9 = 'CUSTOMER_STATUS';
+output.internalId_12 = inputArguments.entityStatusInternalId;]]></attr>
 </Node>
 <Node enabled="enabled" fileURL="dict:outputPayload" guiName="Map&lt;k,v&gt; WRITER" guiX="900" guiY="20" id="MAP_WRITER0" type="MAP_WRITER">
 <attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>

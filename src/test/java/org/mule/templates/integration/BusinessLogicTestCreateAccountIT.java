@@ -20,7 +20,6 @@ import org.mule.api.MuleException;
 import org.mule.api.lifecycle.InitialisationException;
 import org.mule.processor.chain.SubflowInterceptingChainLifecycleWrapper;
 
-import com.mulesoft.module.batch.BatchTestHelper;
 import com.netsuite.webservices.platform.core_2014_1.RecordRef;
 import com.sforce.soap.partner.SaveResult;
 
@@ -39,7 +38,6 @@ import com.sforce.soap.partner.SaveResult;
  */
 public class BusinessLogicTestCreateAccountIT extends AbstractTemplateTestCase {
 
-	private BatchTestHelper helper;
 	private List<Map<String, Object>> createdOpportunities = new ArrayList<Map<String, Object>>();
 	private List<Map<String, Object>> createdAccounts = new ArrayList<Map<String, Object>>();
 	
@@ -47,9 +45,7 @@ public class BusinessLogicTestCreateAccountIT extends AbstractTemplateTestCase {
 	private SubflowInterceptingChainLifecycleWrapper createOpportunityFlow;
 
 	@Before
-	public void setUp() throws Exception {
-		helper = new BatchTestHelper(muleContext);
-		
+	public void setUp() throws Exception {		
 		getAndInitializeFlows();
 		createTestDataInSandBox();
 	}
@@ -78,8 +74,7 @@ public class BusinessLogicTestCreateAccountIT extends AbstractTemplateTestCase {
 		runFlow("mainFlow");
 
 		// Wait for the batch job executed by the poll flow to finish
-		helper.awaitJobTermination(TIMEOUT_SEC * 1000, 500);
-		helper.assertJobWasSuccessful();
+		Thread.sleep(TIMEOUT_SEC * 1000);
 
 		Assert.assertEquals("The opportunity should not have been sync", null, invokeRetrieveFlow(retrieveOpportunityFlow, createdOpportunities.get(0)));
 
