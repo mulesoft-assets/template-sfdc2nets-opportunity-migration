@@ -45,6 +45,13 @@ Finally during the On Complete stage the Anypoint Template will print output sta
 
 To make this Anypoint Template run, there are certain preconditions that must be considered. All of them deal with the preparations in both, that must be made in order for all to run smoothly. **Failling to do so could lead to unexpected behavior of the template.**
 
+For correct mapping of the Salesforce Opportunity *stage* to Netsuite Opportunity *status*, the lookup table *StageToStatus* in the Data Mapper *Opportunity To OPPORTUNITY* should be checked if it contains correct data. The predefined data can be modified or new data can be added. If the Salesforce Opportunity *stage* is not found in the table the default value will be used. It can be specified in the *nets.opportunity.status.internalId* property.
+
+The relevant data can be found this way:
+
++ **Salesforce**: Setup -> Customize -> Opportunities -> Fields -> Stage
++ **Netsuite**: Setup -> Sales -> Customer Statuses
+
 
 
 ## Salesforce Considerations <a name="salesforceconsiderations"/>
@@ -174,7 +181,7 @@ In order to use this Mule Anypoint Template you need to configure properties (Cr
 #### Netsuite required fields
 
 + nets.customer.subsidiary.internalId `1`
-+ nets.default.status `Opportunity Identified`
++ nets.opportunity.status.internalId `10`
 
 #### SMTP Services configuration
 

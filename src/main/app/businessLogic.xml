@@ -88,9 +88,7 @@ payload = customer;]]></expression-component>
             <batch:step name="upsertOpportunitiesInNetsuiteStep" accept-expression="!(payload is NullPayload)" accept-policy="ALL">
                 <data-mapper:transform config-ref="Opportunity_To_OPPORTUNITY" doc:name="Opportunity To OPPORTUNITY">
                     <data-mapper:input-arguments>
-                        <data-mapper:input-argument key="defaultStatus">${nets.default.status}</data-mapper:input-argument>
-                        <data-mapper:input-argument key="existsInNetsuite">#[!(recordVars['opportunityInNetsuite'] is NullPayload)]</data-mapper:input-argument>
-                        <data-mapper:input-argument key="entityStatusInternalId">#[recordVars['customerInNetsuite']['entityStatus'].getInternalId()]</data-mapper:input-argument>
+                        <data-mapper:input-argument key="defaultStatusId">${nets.opportunity.status.internalId}</data-mapper:input-argument>
                         <data-mapper:input-argument key="entityInternalId">#[recordVars['customerInNetsuite']['internalId']]</data-mapper:input-argument>
                     </data-mapper:input-arguments>
                 </data-mapper:transform>

@@ -258,28 +258,26 @@
 </Metadata>
 <Metadata _type="Lookup" id="5240e7b7-fcf9-47ed-926d-4c865ab23c64">
 <Record fieldDelimiter="," name="StageToStatus" recordDelimiter="&#10;" type="delimited">
-<Field containerType="SINGLE" label="Stage" name="Stage" type="string"/>
-<Field containerType="SINGLE" label="Status" name="Status" type="string"/>
+<Field containerType="SINGLE" label="SalesforceStage" name="SalesforceStage" type="string"/>
+<Field containerType="SINGLE" label="NetsuiteStatus" name="NetsuiteStatus" type="string"/>
+<Field containerType="SINGLE" label="NetsuiteInternalId" name="NetsuiteInternalId" type="string"/>
 </Record>
 </Metadata>
-<LookupTable id="StageToStatus" key="Stage" metadata="5240e7b7-fcf9-47ed-926d-4c865ab23c64" name="StageToStatus" type="simpleLookup">
+<LookupTable id="StageToStatus" key="SalesforceStage" metadata="5240e7b7-fcf9-47ed-926d-4c865ab23c64" name="StageToStatus" type="simpleLookup">
 <attr name="lookupType"><![CDATA[UserDefined]]></attr>
-<attr name="data"><![CDATA[Closed Won,Closed Won
-Closed Lost,Closed Lost
-Negotiation/Review,Purchasing
-Proposal/Price Quote,In Negotiation
-Needs Analysis,In Discussion
-Qualification,Opportunity Identified
+<attr name="data"><![CDATA[Closed Won,Closed Won,13
+Closed Lost,Closed Lost,14
+Negotiation/Review,In Negotiation,11
+Id. Decision Makers,Identified Decision Makers,9
+Proposal/Price Quote,Proposal,10
 ]]></attr>
 </LookupTable>
 <Dictionary>
 <Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
 <Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
 <Entry dictval.__javaType="java.lang.String" id="DictionaryEntry2" input="true" name="Stage" output="false" type="string"/>
-<Entry dictval.__javaType="java.lang.String" id="DictionaryEntry3" input="true" name="defaultStatus" output="false" type="string"/>
-<Entry dictval.__javaType="java.lang.Boolean" id="DictionaryEntry4" input="true" name="existsInNetsuite" output="false" type="boolean"/>
-<Entry dictval.__javaType="java.lang.String" id="DictionaryEntry5" input="true" name="entityStatusInternalId" output="false" type="string"/>
-<Entry dictval.__javaType="java.lang.String" id="DictionaryEntry6" input="true" name="entityInternalId" output="false" type="string"/>
+<Entry dictval.__javaType="java.lang.String" id="DictionaryEntry3" input="true" name="entityInternalId" output="false" type="string"/>
+<Entry dictval.__javaType="java.lang.String" id="DictionaryEntry4" input="true" name="defaultStatusId" output="false" type="string"/>
 </Dictionary>
 </Global>
 <Phase number="0">
@@ -306,11 +304,10 @@ output.externalId_13 = input.Id;
 output.closeDate = (isnull(input.CloseDate) ? null : str2calendar(input.CloseDate, "yyyy-MM-dd"));
 output.probability = str2double(input.Probability);
 output.expectedCloseDate = (isnull(input.CloseDate) ? null : str2calendar(input.CloseDate, "yyyy-MM-dd"));
-if (!inputArguments.existsInNetsuite) output.status = (isnull(lookup(StageToStatus).get([input.StageName])) ? inputArguments.defaultStatus : lookup(StageToStatus).get([input.StageName]).Status);
 output.type_8 = 'CUSTOMER';
 output.internalId_11 = inputArguments.entityInternalId;
 output.type_9 = 'CUSTOMER_STATUS';
-output.internalId_12 = inputArguments.entityStatusInternalId;]]></attr>
+output.internalId_12 = (isnull(lookup(StageToStatus).get([input.StageName])) ? inputArguments.defaultStatusId : lookup(StageToStatus).get([input.StageName]).NetsuiteInternalId);]]></attr>
 </Node>
 <Node enabled="enabled" fileURL="dict:outputPayload" guiName="Map&lt;k,v&gt; WRITER" guiX="900" guiY="20" id="MAP_WRITER0" type="MAP_WRITER">
 <attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>

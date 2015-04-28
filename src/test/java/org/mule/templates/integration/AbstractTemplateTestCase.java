@@ -200,7 +200,7 @@ public abstract class AbstractTemplateTestCase extends FunctionalTestCase {
 				.anOpportunity()
 				.with("Name",
 						buildUniqueName(TEMPLATE_NAME, "OppName" + sequence
-								+ "_")).with("StageName", "NoStage")
+								+ "_")).with("StageName", "Negotiation/Review")
 				.with("CloseDate", date("2050-10-10")).with("Probability", "1")
 				.build();
 

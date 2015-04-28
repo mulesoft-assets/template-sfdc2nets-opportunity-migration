@@ -88,6 +88,7 @@ public class BusinessLogicTestCreateAccountIT extends AbstractTemplateTestCase {
 		Map<String, Object> opportunityPayload = invokeRetrieveFlow(retrieveOpportunityFlow, createdOpportunities.get(3));
 		
 		Assert.assertEquals("The opportunity should have been sync", createdOpportunities.get(3).get("Name"), opportunityPayload.get("title"));
+		Assert.assertEquals("The opportunity should have been sync", "11", ((RecordRef)opportunityPayload.get("entityStatus")).getInternalId());
 
 		Assert.assertEquals("The opportunity should belong to a different customer ", accountPayload.get("internalId"),
 				((RecordRef) opportunityPayload.get("entity")).getInternalId());
