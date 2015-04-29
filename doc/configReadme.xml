@@ -30,6 +30,9 @@ The relevant data can be found this way:
 
 + **Salesforce**: Setup -> Customize -> Opportunities -> Fields -> Stage
 + **Netsuite**: Setup -> Sales -> Customer Statuses
+
+Customer must be assigned to subsidiary. In this template, this is done statically and you must configure the property file with subsidiary *internalId* that is already in the system. You can find out this number by entering 'subsidiaries' 
+into the NetSuite search field and selecting 'Page - Subsidiaries'. When you click on the 'View' next to the subsidiary chosen, you will see the ID in the URL line. Please, use this Id to populate *nets.subsidiaryId* property in the property file.
 ]]>
 		</section>
 		<section id="run_it">
