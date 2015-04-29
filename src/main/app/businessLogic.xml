@@ -40,7 +40,7 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
 					</processor-chain>
 				</enricher>
 			</batch:step>
-			<batch:step name="getCustomerIExists" accept-policy="ALL">
+			<batch:step name="getCustomerIfExistsStep" accept-policy="ALL">
 				<enricher source="#[payload]" target="#[recordVars['customerInNetsuite']]"
 					doc:name="store result in customerInNetsuite">
 					<processor-chain doc:name="Processor Chain">
@@ -57,7 +57,7 @@ payload = customer;]]></expression-component>
 					</processor-chain>
 				</enricher>
 			</batch:step>
-			<batch:step name="createCustomerIfDoesNotExist"
+			<batch:step name="createCustomerIfDoesNotExistStep"
 				accept-expression="#[recordVars['customerInNetsuite'] is NullPayload]" accept-policy="ALL">
 				<enricher target="#[recordVars['customerInNetsuite']]"
 					doc:name="store result in customerInNetsuite">

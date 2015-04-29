@@ -12,7 +12,7 @@ This Anypoint Template should serve as a foundation for the process of migrating
 As implemented, this Anypoint Template leverage the [Batch Module](http://www.mulesoft.org/documentation/display/current/Batch+Processing).
 The batch job is divided in  Input, Process and On Complete stages.
 
-During the Input stage the Anypoint Template will go to the Salesforce and query all the existing Opportunities that match the filter criteria. Account in Salesforce is represented by Customer in Netsuite. In the Saleforce it is possible to have an Opportunity without associated Account but in the Netsuite the Customer field is required in the Opportunity. The template would not work correctly if there would be migrated an Opportunity without an Account.
+During the Input stage the Anypoint Template will go to the Salesforce and query all the existing Opportunities that match the filter criteria. Account in Salesforce is represented by Customer in Netsuite. In the Saleforce it is possible to have an Opportunity without associated Account but in the Netsuite the Customer field is required in the Opportunity. The template will fetch and migrate only Opportunities with associated Account.
 
 In the Process stage the Opportunity is fetched from Netsuite by its externalId equal to Salesforce Opportunity ID. In next batch step Customer is looked up by Opportunity Account name. If the Customer is found first one is selected to be used in Netsuite Opportunity. If it is not found, then new Customer is created with user defined subsidiary.
 

@@ -33,7 +33,7 @@ This Anypoint Template should serve as a foundation for the process of migrating
 As implemented, this Anypoint Template leverage the [Batch Module](http://www.mulesoft.org/documentation/display/current/Batch+Processing).
 The batch job is divided in  Input, Process and On Complete stages.
 
-During the Input stage the Anypoint Template will go to the Salesforce and query all the existing Opportunities that match the filter criteria. Account in Salesforce is represented by Customer in Netsuite. In the Saleforce it is possible to have an Opportunity without associated Account but in the Netsuite the Customer field is required in the Opportunity. The template would not work correctly if there would be migrated an Opportunity without an Account.
+During the Input stage the Anypoint Template will go to the Salesforce and query all the existing Opportunities that match the filter criteria. Account in Salesforce is represented by Customer in Netsuite. In the Saleforce it is possible to have an Opportunity without associated Account but in the Netsuite the Customer field is required in the Opportunity. The template will fetch and migrate only Opportunities with associated Account.
 
 In the Process stage the Opportunity is fetched from Netsuite by its externalId equal to Salesforce Opportunity ID. In next batch step Customer is looked up by Opportunity Account name. If the Customer is found first one is selected to be used in Netsuite Opportunity. If it is not found, then new Customer is created with user defined subsidiary.
 
@@ -150,7 +150,7 @@ Once you have imported you Anypoint Template into Anypoint Studio you need to fo
 
 
 ### Running on Mule ESB stand alone <a name="runonmuleesbstandalone"/>
-Complete all properties in one of the property files, for example in [mule.prod.properties](../master/src/main/resources/mule.prod.properties) and run your app with the corresponding environment variable to use it. To follow the example, this will be `mule.env=prod`. 
+Complete all properties in one of the property files, for example in [mule.prod.properties] (../master/src/main/resources/mule.prod.properties) and run your app with the corresponding environment variable to use it. To follow the example, this will be `mule.env=prod`. 
 After this, to trigger the use case you just need to hit the local http endpoint with the port you configured in your file. If this is, for instance, `9090` then you should hit: `http://localhost:9090/migrateopportunities` and this will create a CSV report and send it to the mails set.
 
 ## Running on CloudHub <a name="runoncloudhub"/>

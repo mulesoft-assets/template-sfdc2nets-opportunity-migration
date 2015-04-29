@@ -34,7 +34,7 @@ import com.sforce.soap.partner.SaveResult;
  * The test validates that an account will get sync as result of the
  * integration.
  * 
- * @author cesar.garcia
+ * @author Lenka Mizikova
  */
 public class BusinessLogicTestCreateAccountIT extends AbstractTemplateTestCase {
 
