@@ -25,7 +25,7 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
 		<batch:threading-profile poolExhaustedAction="WAIT" />
 		<batch:input>
 			<sfdc:query config-ref="Salesforce"
-				query="dsql:SELECT Id, Name, Amount, StageName, Probability, CloseDate, Account.Id, Account.Name FROM Opportunity WHERE Amount &gt; 120000 and Account.Id &lt;&gt; null"
+				query="dsql:SELECT Id, Name, Amount, StageName, Probability, CloseDate, Account.Id, Account.Name FROM Opportunity WHERE Account.Id &lt;&gt; null"
 				fetchSize="${page.size}" doc:name="query Opportunities from Salesforce" />
 		</batch:input>
 		<batch:process-records>

@@ -77,17 +77,13 @@ public class BusinessLogicTestCreateAccountIT extends AbstractTemplateTestCase {
 		Thread.sleep(TIMEOUT_SEC * 1000);
 
 		Assert.assertEquals("The opportunity should not have been sync", null, invokeRetrieveFlow(retrieveOpportunityFlow, createdOpportunities.get(0)));
+		
+		Assert.assertEquals("The account should not have been sync", null, invokeRetrieveFlow(retrieveCustomerFlow, createdAccounts.get(1)));
 
-		Assert.assertEquals("The opportunity should not have been sync", null, invokeRetrieveFlow(retrieveOpportunityFlow, createdOpportunities.get(1)));
+		Map<String, Object> accountPayload = invokeRetrieveFlow(retrieveCustomerFlow, createdAccounts.get(0));
+		Map<String, Object> opportunityPayload = invokeRetrieveFlow(retrieveOpportunityFlow, createdOpportunities.get(1));
 		
-		Assert.assertEquals("The opportunity should not have been sync", null, invokeRetrieveFlow(retrieveOpportunityFlow, createdOpportunities.get(2)));
-		
-		Assert.assertEquals("The account should not have been sync", null, invokeRetrieveFlow(retrieveCustomerFlow, createdAccounts.get(0)));
-
-		Map<String, Object> accountPayload = invokeRetrieveFlow(retrieveCustomerFlow, createdAccounts.get(1));
-		Map<String, Object> opportunityPayload = invokeRetrieveFlow(retrieveOpportunityFlow, createdOpportunities.get(3));
-		
-		Assert.assertEquals("The opportunity should have been sync", createdOpportunities.get(3).get("Name"), opportunityPayload.get("title"));
+		Assert.assertEquals("The opportunity should have been sync", createdOpportunities.get(1).get("Name"), opportunityPayload.get("title"));
 		Assert.assertEquals("The opportunity should have been sync", "11", ((RecordRef)opportunityPayload.get("entityStatus")).getInternalId());
 
 		Assert.assertEquals("The opportunity should belong to a different customer ", accountPayload.get("internalId"),
@@ -117,24 +113,13 @@ public class BusinessLogicTestCreateAccountIT extends AbstractTemplateTestCase {
 	private void createOpportunities() throws Exception {
 		// This opportunity should not be sync
 		Map<String, Object> opportunity = createOpportunity(0);
-		opportunity.put("Amount", 300);
+		opportunity.put("Amount", 130000);
 		createdOpportunities.add(opportunity);
 		
-		// This opportunity should not be sync
-		opportunity = createOpportunity(1);
-		opportunity.put("Amount", 300);
-		opportunity.put("AccountId", createdAccounts.get(0).get("Id"));
-		createdOpportunities.add(opportunity);
-
-		// This opportunity should not be sync
-		opportunity = createOpportunity(2);
-		opportunity.put("Amount", 130000);
-		createdOpportunities.add(opportunity);
-
 		// This opportunity should BE sync with it's account
-		opportunity = createOpportunity(3);
+		opportunity = createOpportunity(1);
 		opportunity.put("Amount", 130000);
-		opportunity.put("AccountId", createdAccounts.get(1).get("Id"));
+		opportunity.put("AccountId", createdAccounts.get(0).get("Id"));
 		createdOpportunities.add(opportunity);
 
 		MuleEvent event = createOpportunityFlow.process(getTestEvent(createdOpportunities, MessageExchangePattern.REQUEST_RESPONSE));
