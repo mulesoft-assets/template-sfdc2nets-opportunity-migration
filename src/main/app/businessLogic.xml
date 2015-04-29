@@ -109,7 +109,7 @@ payload = customer;]]></expression-component>
 						level="INFO" doc:name="log 'Migration process has finished'" />
 				</processor-chain>
 				<processor-chain>
-					<parse-template location="./src/main/resources/email/body.html" doc:name="Parse Template"/>
+					<json:object-to-json-transformer doc:name="transform BatchJobInstance to JSON" />
 					<smtp:outbound-endpoint host="${smtp.host}"
 						port="${smtp.port}" user="${smtp.user}" password="${smtp.password}"
 						to="${mail.to}" from="${mail.from}" subject="${mail.subject}"
