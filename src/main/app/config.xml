@@ -25,7 +25,7 @@ http://www.mulesoft.org/schema/mule/netsuite http://www.mulesoft.org/schema/mule
 
 	<smtp:gmail-connector name="gmailConnector"
 		doc:name="Gmail" validateConnections="true"
-		doc:description="This is the connector used to send email notifications. You should change its configuration to select a different email provider" />
+		doc:description="This is the connector used to send email notifications. You should change its configuration to select a different email provider" contentType="text/html"/>
 
 	<sfdc:config name="Salesforce" username="${sfdc.username}"
 		password="${sfdc.password}" securityToken="${sfdc.securityToken}" url="${sfdc.url}"
