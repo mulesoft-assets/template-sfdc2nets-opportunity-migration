@@ -20,7 +20,7 @@ import org.mule.api.MuleException;
 import org.mule.api.lifecycle.InitialisationException;
 import org.mule.processor.chain.SubflowInterceptingChainLifecycleWrapper;
 
-import com.netsuite.webservices.platform.core_2014_1.RecordRef;
+import com.netsuite.webservices.platform.core.RecordRef;
 import com.sforce.soap.partner.SaveResult;
 
 /**
