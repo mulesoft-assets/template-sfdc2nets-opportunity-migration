@@ -80,10 +80,9 @@ public class BusinessLogicTestCreateAccountIT extends AbstractTemplateTestCase {
 		Thread.sleep(TIMEOUT_SEC * 1000);
 
 		Assert.assertEquals("The opportunity should not have been sync", null, invokeRetrieveFlow(retrieveNetsuiteOpportunityFlow, createdOpportunities.get(0)));
-		
-		Assert.assertEquals("The account should not have been sync", null, invokeRetrieveFlow(retrieveNetsuiteCustomerFlow, createdAccounts.get(1)));
+		Assert.assertEquals("The account should not have been sync", null, invokeRetrieveFlow(retrieveNetsuiteCustomerFlow, createdAccounts.get(0)));
 
-		Map<String, Object> accountPayload = invokeRetrieveFlow(retrieveNetsuiteCustomerFlow, createdAccounts.get(0));
+		Map<String, Object> accountPayload = invokeRetrieveFlow(retrieveNetsuiteCustomerFlow, createdAccounts.get(1));
 		Map<String, Object> opportunityPayload = invokeRetrieveFlow(retrieveNetsuiteOpportunityFlow, createdOpportunities.get(1));
 		
 		Assert.assertEquals("The opportunity should have been sync", createdOpportunities.get(1).get("Name"), opportunityPayload.get("title"));
@@ -122,7 +121,7 @@ public class BusinessLogicTestCreateAccountIT extends AbstractTemplateTestCase {
 		// This opportunity should BE sync with it's account
 		opportunity = createOpportunity(1);
 		opportunity.put("Amount", 130000);
-		opportunity.put("AccountId", createdAccounts.get(0).get("Id"));
+		opportunity.put("AccountId", createdAccounts.get(1).get("Id"));
 		createdOpportunities.add(opportunity);
 
 		MuleEvent event = createOpportunityFlow.process(getTestEvent(createdOpportunities, MessageExchangePattern.REQUEST_RESPONSE));
