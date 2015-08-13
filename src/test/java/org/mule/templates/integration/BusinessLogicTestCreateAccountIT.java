@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -37,7 +39,8 @@ import com.sforce.soap.partner.SaveResult;
  * @author Lenka Mizikova
  */
 public class BusinessLogicTestCreateAccountIT extends AbstractTemplateTestCase {
-
+	
+	private static final Logger LOG = LogManager.getLogger(BusinessLogicTestCreateAccountIT.class);
 	private List<Map<String, Object>> createdOpportunities = new ArrayList<Map<String, Object>>();
 	private List<Map<String, Object>> createdAccounts = new ArrayList<Map<String, Object>>();
 	
@@ -56,11 +59,11 @@ public class BusinessLogicTestCreateAccountIT extends AbstractTemplateTestCase {
 	}
 	
 	private void getAndInitializeFlows() throws InitialisationException {
-		retrieveOpportunityFlow = getSubFlow("retrieveOpportunityFlow");
-		retrieveOpportunityFlow.initialise();
+		retrieveNetsuiteOpportunityFlow = getSubFlow("retrieveOpportunityFlow");
+		retrieveNetsuiteOpportunityFlow.initialise();
 
-		retrieveCustomerFlow = getSubFlow("retrieveCustomerFlow");
-		retrieveCustomerFlow.initialise();
+		retrieveNetsuiteCustomerFlow = getSubFlow("retrieveCustomerFlow");
+		retrieveNetsuiteCustomerFlow.initialise();
 		
 		createAccountFlow = getSubFlow("createAccountFlow");
 		createAccountFlow.initialise();
@@ -76,12 +79,12 @@ public class BusinessLogicTestCreateAccountIT extends AbstractTemplateTestCase {
 		// Wait for the batch job executed by the poll flow to finish
 		Thread.sleep(TIMEOUT_SEC * 1000);
 
-		Assert.assertEquals("The opportunity should not have been sync", null, invokeRetrieveFlow(retrieveOpportunityFlow, createdOpportunities.get(0)));
+		Assert.assertEquals("The opportunity should not have been sync", null, invokeRetrieveFlow(retrieveNetsuiteOpportunityFlow, createdOpportunities.get(0)));
 		
-		Assert.assertEquals("The account should not have been sync", null, invokeRetrieveFlow(retrieveCustomerFlow, createdAccounts.get(1)));
+		Assert.assertEquals("The account should not have been sync", null, invokeRetrieveFlow(retrieveNetsuiteCustomerFlow, createdAccounts.get(1)));
 
-		Map<String, Object> accountPayload = invokeRetrieveFlow(retrieveCustomerFlow, createdAccounts.get(0));
-		Map<String, Object> opportunityPayload = invokeRetrieveFlow(retrieveOpportunityFlow, createdOpportunities.get(1));
+		Map<String, Object> accountPayload = invokeRetrieveFlow(retrieveNetsuiteCustomerFlow, createdAccounts.get(0));
+		Map<String, Object> opportunityPayload = invokeRetrieveFlow(retrieveNetsuiteOpportunityFlow, createdOpportunities.get(1));
 		
 		Assert.assertEquals("The opportunity should have been sync", createdOpportunities.get(1).get("Name"), opportunityPayload.get("title"));
 		Assert.assertEquals("The opportunity should have been sync", "11", ((RecordRef)opportunityPayload.get("entityStatus")).getInternalId());
@@ -106,7 +109,7 @@ public class BusinessLogicTestCreateAccountIT extends AbstractTemplateTestCase {
 			createdAccounts.get(i).put("Id", results.get(i).getId());
 		}
 
-		System.out.println("Results of data creation in sandbox" + createdAccounts.toString());
+		LOG.info("Results of data creation in sandbox: " + createdAccounts.toString());
 	}
 
 	@SuppressWarnings("unchecked")

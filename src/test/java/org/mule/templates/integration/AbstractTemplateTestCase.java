@@ -41,8 +41,8 @@ public abstract class AbstractTemplateTestCase extends FunctionalTestCase {
 	protected static final int TIMEOUT_SEC = 240;
 	protected static final String TEMPLATE_NAME = "sfdc2nets-opp-migr";
 
-	protected SubflowInterceptingChainLifecycleWrapper retrieveOpportunityFlow;
-	protected SubflowInterceptingChainLifecycleWrapper retrieveCustomerFlow;
+	protected SubflowInterceptingChainLifecycleWrapper retrieveNetsuiteOpportunityFlow;
+	protected SubflowInterceptingChainLifecycleWrapper retrieveNetsuiteCustomerFlow;
 
 	@Rule
 	public DynamicPort port = new DynamicPort("http.port");
@@ -70,8 +70,9 @@ public abstract class AbstractTemplateTestCase extends FunctionalTestCase {
 		if (listOfFiles != null) {
 			for (File f : listOfFiles) {
 				if (f.isFile() && f.getName().endsWith("xml")) {
-					resources.append(",").append(TEST_FLOWS_FOLDER_PATH)
-							.append(f.getName());
+					resources.append(",")
+							 .append(TEST_FLOWS_FOLDER_PATH)
+							 .append(f.getName());
 				}
 			}
 			return resources.toString();
@@ -93,27 +94,33 @@ public abstract class AbstractTemplateTestCase extends FunctionalTestCase {
 		return properties;
 	}
 
-	protected void deleteTestOpportunityFromSandBox(
-			List<Map<String, Object>> createdOpportunities) throws Exception {
+	protected void deleteTestOpportunityFromSandBox(List<Map<String, Object>> createdOpportunities) throws Exception {
+		deleteOpportunitiesFromSalesforce(createdOpportunities);
+		deleteOpportunitiesFromNetsuite(createdOpportunities);
+		
+	}
+	
+	protected void deleteOpportunitiesFromSalesforce(List<Map<String, Object>> createdOpportunities) throws Exception {
 		List<String> idList = new ArrayList<String>();
 
 		// Delete the created opportunities in Salesforce
 		SubflowInterceptingChainLifecycleWrapper flow = getSubFlow("deleteOpportunitiesFromSalesforceFlow");
 		flow.initialise();
-		for (Map<String, Object> c : createdOpportunities) {
-			idList.add((String) c.get("Id"));
+		for (Map<String, Object> opp : createdOpportunities) {
+			idList.add((String) opp.get("Id"));
 		}
-		flow.process(getTestEvent(idList,
-				MessageExchangePattern.REQUEST_RESPONSE));
-
+		flow.process(getTestEvent(idList, MessageExchangePattern.REQUEST_RESPONSE));
+	}
+	
+	protected void deleteOpportunitiesFromNetsuite(List<Map<String, Object>> createdOpportunities) throws Exception {
 		// Delete the created opportunities in Netsuite
 		List<BaseRefType> baseRefTypeList = new ArrayList<BaseRefType>();
 		
-		flow = getSubFlow("deleteOpportunitiesFromNetsuiteFlow");
+		SubflowInterceptingChainLifecycleWrapper flow = getSubFlow("deleteOpportunitiesFromNetsuiteFlow");
 		flow.initialise();
-		for (Map<String, Object> c : createdOpportunities) {
-			Map<String, Object> opportunity = invokeRetrieveFlow(
-					retrieveOpportunityFlow, c);
+		
+		for (Map<String, Object> opp : createdOpportunities) {
+			Map<String, Object> opportunity = invokeRetrieveFlow(retrieveNetsuiteOpportunityFlow, opp);
 			if (opportunity != null) {
 				BaseRefType baseRefType = new BaseRefType();
 				baseRefType.setInternalId((String) opportunity.get("internalId"));
@@ -121,31 +128,36 @@ public abstract class AbstractTemplateTestCase extends FunctionalTestCase {
 				baseRefTypeList.add(baseRefType);
 			}
 		}
-		flow.process(getTestEvent(baseRefTypeList,
-				MessageExchangePattern.REQUEST_RESPONSE));
+		flow.process(getTestEvent(baseRefTypeList, MessageExchangePattern.REQUEST_RESPONSE));
 	}
+	
 
-	protected void deleteTestAccountFromSandBox(
-			List<Map<String, Object>> createdAccounts) throws Exception {
+	protected void deleteTestAccountFromSandBox(List<Map<String, Object>> createdAccounts) throws Exception {
+		deleteAccountsFromSalesforce(createdAccounts);
+		deleteAccountsFromNetsuite(createdAccounts);
+		
+	}
+	
+	protected void deleteAccountsFromSalesforce(List<Map<String, Object>> createdAccounts) throws Exception {
 		// Delete the created accounts in Salesforce
 		SubflowInterceptingChainLifecycleWrapper flow = getSubFlow("deleteAccountsFromSalesforceFlow");
 		flow.initialise();
 
 		List<Object> idList = new ArrayList<Object>();
-		for (Map<String, Object> c : createdAccounts) {
-			idList.add(c.get("Id"));
+		for (Map<String, Object> acc : createdAccounts) {
+			idList.add(acc.get("Id"));
 		}
-		flow.process(getTestEvent(idList,
-				MessageExchangePattern.REQUEST_RESPONSE));
-
+		flow.process(getTestEvent(idList, MessageExchangePattern.REQUEST_RESPONSE));
+	}
+	
+	protected void deleteAccountsFromNetsuite(List<Map<String, Object>> createdAccounts) throws Exception {
 		// Delete the created customers in Netsuite
 		List<BaseRefType> baseRefTypeList = new ArrayList<BaseRefType>();
 		
-		flow = getSubFlow("deleteCustomersFromNetsuiteFlow");
+		SubflowInterceptingChainLifecycleWrapper flow = getSubFlow("deleteCustomersFromNetsuiteFlow");
 		flow.initialise();
-		for (Map<String, Object> c : createdAccounts) {
-			Map<String, Object> customer = invokeRetrieveFlow(retrieveCustomerFlow,
-					c);
+		for (Map<String, Object> acc : createdAccounts) {
+			Map<String, Object> customer = invokeRetrieveFlow(retrieveNetsuiteCustomerFlow, acc);
 			if (customer != null) {
 				BaseRefType baseRefType = new BaseRefType();
 				baseRefType.setInternalId((String) customer.get("internalId"));
@@ -153,8 +165,8 @@ public abstract class AbstractTemplateTestCase extends FunctionalTestCase {
 				baseRefTypeList.add(baseRefType);
 			}
 		}
-		flow.process(getTestEvent(baseRefTypeList,
-				MessageExchangePattern.REQUEST_RESPONSE));
+		
+		flow.process(getTestEvent(baseRefTypeList, MessageExchangePattern.REQUEST_RESPONSE));
 	}
 
 	protected String buildUniqueName(String templateName, String name) {
@@ -169,11 +181,8 @@ public abstract class AbstractTemplateTestCase extends FunctionalTestCase {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected Map<String, Object> invokeRetrieveFlow(
-			SubflowInterceptingChainLifecycleWrapper flow,
-			Map<String, Object> payload) throws Exception {
-		MuleEvent event = flow.process(getTestEvent(payload,
-				MessageExchangePattern.REQUEST_RESPONSE));
+	protected Map<String, Object> invokeRetrieveFlow(SubflowInterceptingChainLifecycleWrapper flow,	Map<String, Object> payload) throws Exception {
+		MuleEvent event = flow.process(getTestEvent(payload, MessageExchangePattern.REQUEST_RESPONSE));
 
 		Object resultPayload = event.getMessage().getPayload();
 		if (resultPayload instanceof NullPayload) {
@@ -194,13 +203,11 @@ public abstract class AbstractTemplateTestCase extends FunctionalTestCase {
 				.with("NumberOfEmployees", 9000).build();
 	}
 
-	protected Map<String, Object> createOpportunity(int sequence)
-			throws ParseException {
+	protected Map<String, Object> createOpportunity(int sequence) throws ParseException {
 		return SfdcObjectBuilder
 				.anOpportunity()
-				.with("Name",
-						buildUniqueName(TEMPLATE_NAME, "OppName" + sequence
-								+ "_")).with("StageName", "Negotiation/Review")
+				.with("Name", buildUniqueName(TEMPLATE_NAME, "OppName" + sequence + "_"))
+				.with("StageName", "Negotiation/Review")
 				.with("CloseDate", date("2050-10-10")).with("Probability", "1")
 				.build();
 

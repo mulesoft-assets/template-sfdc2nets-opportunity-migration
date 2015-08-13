@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+<mule version="EE-3.7.1"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	xmlns:netsuite="http://www.mulesoft.org/schema/mule/netsuite"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:smtp="http://www.mulesoft.org/schema/mule/smtp" xmlns:spring="http://www.springframework.org/schema/beans"
-	xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" version="EE-3.6.2"
+	xmlns:smtp="http://www.mulesoft.org/schema/mule/smtp" 
+	xmlns:spring="http://www.springframework.org/schema/beans"
+	xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
@@ -30,15 +33,11 @@ http://www.mulesoft.org/schema/mule/netsuite http://www.mulesoft.org/schema/mule
 	<sfdc:config name="Salesforce" username="${sfdc.username}"
 		password="${sfdc.password}" securityToken="${sfdc.securityToken}" url="${sfdc.url}"
 		doc:name="Salesforce"
-		doc:description="Your Salesforce instance. This is the source organization, where accounts will be migrated from.">
+		doc:description="Your Salesforce instance. This is the source organization, where accounts will be migrated from." disableSessionInvalidation="true">
 		<sfdc:connection-pooling-profile
 			initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW" />
 	</sfdc:config>
 
-	<netsuite:config account="${nets.account}" doc:name="Netsuite"
-		email="${nets.email}" name="Netsuite" password="${nets.password}"
-		roleId="${nets.roleId}">
-		<reconnect-forever />
-	</netsuite:config>
+    <netsuite:config-login-authentication name="NetSuite" email="${nets.email}" password="${nets.password}" account="${nets.account}" roleId="${nets.roleId}" doc:name="NetSuite: Login Authentication"/>
 
 </mule>
