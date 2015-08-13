@@ -26,26 +26,26 @@ Note that using this template is subject to the conditions of this [License Agre
 Please review the terms of the license before downloading and using this template. In short, you are allowed to use the template for free with Mule ESB Enterprise Edition, CloudHub, or as a trial in Anypoint Studio.
 
 # Use Case <a name="usecase"/>
-As a Salesforce admin I want to synchronize Opportunities between Salesforce and Netsuite.
+As a Salesforce admin I want to synchronize Opportunities from Salesforce to Netsuite.
 
 This Anypoint Template should serve as a foundation for the process of migrating Opportunities from Salesforce instance to Netsuite, being able to specify filtering criteria and desired behaviour when an Opportunity already exists in the destination system. 
 
-As implemented, this Anypoint Template leverage the [Batch Module](http://www.mulesoft.org/documentation/display/current/Batch+Processing).
-The batch job is divided in  Input, Process and On Complete stages.
+As implemented, this Anypoint Template leverages the [Batch Module](http://www.mulesoft.org/documentation/display/current/Batch+Processing).
+The batch job is divided into Input, Process and On Complete stages.
 
-During the Input stage the Anypoint Template will go to the Salesforce and query all the existing Opportunities that match the filter criteria. Account in Salesforce is represented by Customer in Netsuite. In the Saleforce it is possible to have an Opportunity without associated Account but in the Netsuite the Customer field is required in the Opportunity. The template will fetch and migrate only Opportunities with associated Account.
+During the Input stage the Anypoint Template will query Salesforce for all the existing Opportunities that match the filtering criteria. Account in Salesforce is represented by Customer in Netsuite. In the Saleforce it is possible to have an Opportunity without associated Account but in the Netsuite the Customer field is required in the Opportunity. The template will fetch and migrate only Opportunities with associated Account.
 
-In the Process stage the Opportunity is fetched from Netsuite by its externalId equal to Salesforce Opportunity ID. In next batch step Customer is looked up by Opportunity Account name. If the Customer is found first one is selected to be used in Netsuite Opportunity. If it is not found, then new Customer is created with user defined subsidiary.
+In the Process stage Customer is looked up by Opportunity Account name. If the Customer is found, the first one is selected to be used in Netsuite Opportunity. If it is not found, then new Customer is created with user defined subsidiary.
 
-The last step of the Process stage will upsert the Opportunities in Netsuite based on the externalId field of the Netsuite Opportunity which should match the Salesforse Opportunity Id.
+The last step of the Process stage will upsert the Opportunities into Netsuite based on the externalId field of the Netsuite Opportunity which should match the Salesforse Opportunity Id.
 
-Finally during the On Complete stage the Anypoint Template will print output statistics data into the console and send a notification email with the results of the batch execution.
+Finally during the On Complete stage the Anypoint Template will print output statistics data into the console and send a notification e-mail with the results of the batch execution.
 
 # Considerations <a name="considerations"/>
 
 To make this Anypoint Template run, there are certain preconditions that must be considered. All of them deal with the preparations in both, that must be made in order for all to run smoothly. **Failling to do so could lead to unexpected behavior of the template.**
 
-For correct mapping of the Salesforce Opportunity *stage* to Netsuite Opportunity *status*, the lookup table *StageToStatus* in the Data Mapper *Opportunity To OPPORTUNITY* should be checked if it contains correct data. The predefined data can be modified or new data can be added. If the Salesforce Opportunity *stage* is not found in the table the default value will be used. It can be specified in the *nets.opportunity.status.internalId* property.
+For correct mapping of the Salesforce Opportunity *stage* to Netsuite Opportunity *status*, check DataWeave function stageToStatus() in *Opportunity To OPPORTUNITY* mapping. It should be checked if it contains correct data. The predefined data can be modified or new data can be added. If the Salesforce Opportunity *stage* is not found in the table the default value will be used. It can be specified in the *nets.opportunity.status.internalId* property.
 
 The relevant data can be found this way:
 
@@ -158,7 +158,7 @@ After this, to trigger the use case you just need to hit the local http endpoint
 
 ## Running on CloudHub <a name="runoncloudhub"/>
 While [creating your application on CloudHub](http://www.mulesoft.org/documentation/display/current/Hello+World+on+CloudHub) (Or you can do it later as a next step), you need to go to Deployment > Advanced to set all environment variables detailed in **Properties to be configured** as well as the **mule.env**.
-Once your app is all set and started, supposing you choose as domain name `sfdc2netsOpportunityMigration` to trigger the use case you just need to hit `http://sfdc2netsOpportunityMigration.cloudhub.io/migrateopportunities` and report will be sent to the emails configured.
+Once your app is all set and started, supposing you choose as domain name `sfdc2netsOpportunityMigration` to trigger the use case you just need to hit `http://sfdc2netsOpportunityMigration.cloudhub.io/migrateopportunities` and report will be sent to the e-mails configured.
 
 ### Deploying your Anypoint Template on CloudHub <a name="deployingyouranypointtemplateoncloudhub"/>
 Mule Studio provides you with really easy way to deploy your Template directly to CloudHub, for the specific steps to do so please check this [link](http://www.mulesoft.org/documentation/display/current/Deploying+Mule+Applications#DeployingMuleApplications-DeploytoCloudHub)
@@ -227,10 +227,10 @@ Functional aspect of the Anypoint Template is implemented on this XML, directed 
 For the pourpose of this particular Anypoint Template the *mainFlow* just excecutes a [Batch Job](http://www.mulesoft.org/documentation/display/current/Batch+Processing). which handles all the logic of it:
 
 1. Job execution is invoked from triggerFlow (endpoints.xml).
-2. During the Process stage, each Opportunity will be filtered based on specified criteria. Then it is checked if it has an existing matching Opportunity in the Netsuite instance. The matching is performed by querying a Netsuite instance for an entry with externalId same as the given Salesforce Opportunity Id.
+2. During the Process stage, each Opportunity will be filtered based on specified criteria. 
 3. Account associated with Salesforce Opportunity is migrated to Customer associated with Opportunity in Netsuite. The matching is performed by querying a Netsuite instance for an entry with companyName same as the given Salesforce Account name.
-4. The next step will insert a new record into the Netsuite instance if there was none found in the previous step or update the existing one.
-5. The final step will be sending execution report with statistics to email adresses set.
+4. The next step will insert a new Opportunity record into the Netsuite instance if there was none found in the previous step or update the existing one.
+5. The final step will be sending execution report with statistics to e-mail adresses set.
 
 
 This flow has Exception Strategy that basically consists on invoking the *defaultChoiseExceptionStrategy* defined in *errorHandling.xml* file.
@@ -238,7 +238,7 @@ This flow has Exception Strategy that basically consists on invoking the *defaul
 
 
 ## endpoints.xml<a name="endpointsxml"/>
-This is the file where you will found the inbound and outbound sides of your integration app.
+This is the file where you will find the inbound and outbound sides of your integration app.
 This Anypoint Template has a [HTTP Listener Connector](http://www.mulesoft.org/documentation/display/current/HTTP+Listener+Connector) as the way to trigger the use case.
 
 ### Trigger Flow

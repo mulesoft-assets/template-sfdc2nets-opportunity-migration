@@ -3,7 +3,7 @@
 <mule xmlns:netsuite="http://www.mulesoft.org/schema/mule/netsuite"
 	xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns:json="http://www.mulesoft.org/schema/mule/json"
 	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.6.2"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.7.1"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
@@ -20,10 +20,10 @@ http://www.mulesoft.org/schema/mule/netsuite http://www.mulesoft.org/schema/mule
 			doc:name="Logger" />
 	</sub-flow>
 	<sub-flow name="retrieveOpportunityFlow">
-		<netsuite:query-records config-ref="Netsuite"
+		<netsuite:query-records config-ref="NetSuite"
 			query="dsql:SELECT department,entity,entityStatus,externalId,internalId,lastModifiedDate,leadSource,partner,status,
 subsidiary,title,tranDate,tranId,expectedCloseDate,probability
- FROM OPPORTUNITY where externalId = '#[payload['Id']]'"
+FROM OPPORTUNITY WHERE externalId = '#[payload.Id]'"
 			doc:name="retrieve Opportunity in Netsuite" />
 		<expression-component doc:name="retrieve Opportunity object"><![CDATA[java.util.HashMap opportunity;
 
@@ -45,9 +45,9 @@ payload = opportunity;]]></expression-component>
 			doc:name="Logger" />
 	</sub-flow>
 	<sub-flow name="deleteOpportunitiesFromNetsuiteFlow">
-		<netsuite:delete-list config-ref="Netsuite"
+		<netsuite:delete-list config-ref="NetSuite"
 			doc:name="delete Opportunity from Netsuite">
-			<netsuite:records ref="#[payload]" />
+
 		</netsuite:delete-list>
         <foreach doc:name="For Each Opportunity">
             <logger message="Remove Opportunity with ID #[payload.getBaseRef().getInternalId()] from Netsuite result: #[payload.getStatus().getIsSuccess()]" level="INFO" doc:name="Logger"/>
@@ -62,8 +62,8 @@ payload = opportunity;]]></expression-component>
         <logger message="Create Account in Salesforce result: #[payload]" level="INFO" doc:name="Logger"/>
 	</sub-flow>
 	<sub-flow name="retrieveCustomerFlow">
-		<netsuite:query-records config-ref="Netsuite"
-			query="dsql:SELECT companyName,entityId,entityStatus,externalId,internalId FROM CUSTOMER WHERE companyName = '#[payload['Name']]'"
+		<netsuite:query-records config-ref="NetSuite"
+			query="dsql:SELECT companyName,entityId,entityStatus,externalId,internalId FROM CUSTOMER WHERE companyName = '#[payload.Name]'"
 			doc:name="Retrieve Customer from Netsuite" />
 		<expression-component doc:name="retrieve Customer object"><![CDATA[java.util.HashMap customer;
 
@@ -84,9 +84,9 @@ payload = customer;]]></expression-component>
 			doc:name="Logger" />
 	</sub-flow>
 	<sub-flow name="deleteCustomersFromNetsuiteFlow">
-		<netsuite:delete-list config-ref="Netsuite"
+		<netsuite:delete-list config-ref="NetSuite"
 			doc:name="Netsuite">
-			<netsuite:records ref="#[payload]" />
+
 		</netsuite:delete-list>
         <foreach collection="#[payload]" doc:name="For Each Customer">
             <logger message="Remove Customer with ID #[payload.getBaseRef().getInternalId()] from Netsuite result: #[payload.getStatus().getIsSuccess()]" level="INFO" doc:name="Logger"/>

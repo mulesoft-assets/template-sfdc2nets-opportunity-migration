@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper"
+<mule version="EE-3.7.1"
+	xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" 
 	xmlns:netsuite="http://www.mulesoft.org/schema/mule/netsuite"
-	xmlns:core="http://www.mulesoft.org/schema/mule/core" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking"
-	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
-	xmlns:smtp="http://www.mulesoft.org/schema/mule/smtp" xmlns:json="http://www.mulesoft.org/schema/mule/json"
-	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.6.2"
+	xmlns:core="http://www.mulesoft.org/schema/mule/core" 
+	xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking"
+	xmlns="http://www.mulesoft.org/schema/mule/core" 
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:batch="http://www.mulesoft.org/schema/mule/batch" 
+	xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
+	xmlns:smtp="http://www.mulesoft.org/schema/mule/smtp" 
+	xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
@@ -16,83 +21,93 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
 http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
 http://www.mulesoft.org/schema/mule/smtp http://www.mulesoft.org/schema/mule/smtp/current/mule-smtp.xsd
 http://www.mulesoft.org/schema/mule/netsuite http://www.mulesoft.org/schema/mule/netsuite/current/mule-netsuite.xsd
-http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd">
-	<data-mapper:config name="Opportunity_To_OPPORTUNITY"
-		transformationGraphPath="opportunity_to_opportunity.grf" doc:name="Opportunity_To_OPPORTUNITY" />
-    <data-mapper:config name="Payload_To_CUSTOMER" transformationGraphPath="payload_to_customer.grf" doc:name="Payload_To_CUSTOMER"/>
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
 
 	<batch:job name="migrateOpportunitiesBatch" max-failed-records="-1">
 		<batch:threading-profile poolExhaustedAction="WAIT" />
 		<batch:input>
 			<sfdc:query config-ref="Salesforce"
 				query="dsql:SELECT Id, Name, Amount, StageName, Probability, CloseDate, Account.Id, Account.Name FROM Opportunity WHERE Account.Id &lt;&gt; null"
-				fetchSize="${page.size}" doc:name="query Opportunities from Salesforce" />
+				fetchSize="${page.size}" doc:name="Query Opportunities from Salesforce" />
 		</batch:input>
 		<batch:process-records>
-			<batch:step name="getOpportunityInNetsuiteStep" accept-policy="ALL">
-				<enricher source="#[payload]" target="#[recordVars['opportunityInNetsuite']]"
-					doc:name="store result in record var 'opportunityInNetsuite'">
-					<processor-chain doc:name="Processor Chain">
-                        <netsuite:get-record config-ref="Netsuite" doc:name="query Opportunity in Netsuite">
-                            <netsuite:record-ref externalId="#[payload['Id']]" type="OPPORTUNITY"/>
-                        </netsuite:get-record>
 
-					</processor-chain>
-				</enricher>
-			</batch:step>
-			<batch:step name="getCustomerIfExistsStep" accept-policy="ALL">
-				<enricher source="#[payload]" target="#[recordVars['customerInNetsuite']]"
+			<batch:step name="getCustomerIfExistsStep" >
+				<enricher source="#[payload.hasNext() ? payload.next() : null]" target="#[recordVars.customerInNetsuite]"
 					doc:name="store result in customerInNetsuite">
-					<processor-chain doc:name="Processor Chain">
-						<netsuite:query-records config-ref="Netsuite"
-							query="dsql:SELECT companyName,entityId,entityStatus,externalId,internalId FROM CUSTOMER WHERE companyName = '#[payload['Account']['Name']]'"
-							doc:name="query Customer in Netsuite" />
-						<expression-component doc:name="retrieve Customer object"><![CDATA[java.util.HashMap customer;
+                    <netsuite:query-records config-ref="NetSuite" query="dsql:SELECT companyName,entityId,entityStatus,externalId,internalId FROM CUSTOMER WHERE companyName = '#[payload.Account.Name]'" doc:name="Query Customer in Netsuite"/>
 
-if (payload.hasNext()){
-	customer = payload.next();
-}
-
-payload = customer;]]></expression-component>
-					</processor-chain>
 				</enricher>
 			</batch:step>
 			<batch:step name="createCustomerIfDoesNotExistStep"
-				accept-expression="#[recordVars['customerInNetsuite'] is NullPayload]" accept-policy="ALL">
-				<enricher target="#[recordVars['customerInNetsuite']]"
+				accept-expression="#[recordVars.customerInNetsuite == null]" >
+				<enricher target="#[recordVars.customerInNetsuite]"
 					doc:name="store result in customerInNetsuite">
 					<processor-chain doc:name="Processor Chain">
-                        <data-mapper:transform config-ref="Payload_To_CUSTOMER" doc:name="Payload To CUSTOMER">
-                            <data-mapper:input-arguments>
-                                <data-mapper:input-argument key="AccountName">#[payload['Account']['Name']]</data-mapper:input-argument>
-                                <data-mapper:input-argument key="SubsidiaryInternalId">${nets.customer.subsidiary.internalId}</data-mapper:input-argument>
-                            </data-mapper:input-arguments>
-                        </data-mapper:transform>
-						<netsuite:add-record config-ref="Netsuite"
-							recordType="CUSTOMER" doc:name="create Customer in Netsuite">
+                        <dw:transform-message doc:name="Payload to CUSTOMER">
+                        	<dw:input-payload mimeType="application/java"/>
+                            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+{
+	companyName 	: payload.Account.Name,
+	subsidiary 		: {
+		internalId 	: p('nets.customer.subsidiary.internalId'),
+		type 		: 'SUBSIDIARY'
+	}
+}]]></dw:set-payload>
+                        </dw:transform-message>
+
+						<netsuite:add-record config-ref="NetSuite"
+							recordType="CUSTOMER" doc:name="Create Customer in Netsuite">
 							<netsuite:attributes ref="#[payload]">
 							</netsuite:attributes>
 						</netsuite:add-record>
 						<logger
 							message="New Customer created in Netsuite: #[payload.getInternalId()]"
-							level="INFO" doc:name="log created Customer" />
-						<netsuite:get-record config-ref="Netsuite"
+							level="INFO" doc:name="Log created Customer" />
+						<netsuite:get-record config-ref="NetSuite"
 							
-							doc:name="get created Customer in Netsuite" >
+							doc:name="Get created Customer in Netsuite" >
                             <netsuite:record-ref internalId="#[payload.getInternalId()]" type="CUSTOMER"/>
                         </netsuite:get-record>
 
 					</processor-chain>
 				</enricher>
 			</batch:step>
-            <batch:step name="upsertOpportunitiesInNetsuiteStep" accept-expression="!(payload is NullPayload)" accept-policy="ALL">
-                <data-mapper:transform config-ref="Opportunity_To_OPPORTUNITY" doc:name="Opportunity To OPPORTUNITY">
-                    <data-mapper:input-arguments>
-                        <data-mapper:input-argument key="defaultStatusId">${nets.opportunity.status.internalId}</data-mapper:input-argument>
-                        <data-mapper:input-argument key="entityInternalId">#[recordVars['customerInNetsuite']['internalId']]</data-mapper:input-argument>
-                    </data-mapper:input-arguments>
-                </data-mapper:transform>
-                <netsuite:upsert-record config-ref="Netsuite" recordType="OPPORTUNITY" doc:name="upsert Opportunities in Netsuite">
+            <batch:step name="upsertOpportunitiesInNetsuiteStep"  >
+                <dw:transform-message doc:name="Opportunity to OPPORTUNITY">
+                	<dw:input-payload mimeType="application/java"/>
+                    <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+
+%function stageToStatus(stage) using (defaultStatus = p('nets.opportunity.status.internalId')) {
+	status : 13 	when stage == 'Closed Won'      		otherwise 			
+	(        14 	when stage == 'Closed Lost'          	otherwise 			
+	(        11 	when stage == 'Negotiation/Review'   	otherwise 	
+	(         9 	when stage == 'Id. Decision Makers'  	otherwise 	
+	(        10	    when stage == 'Proposal/Price Quote' 	otherwise 
+	status : defaultStatus))))
+} unless stage is :null otherwise status: defaultStatus
+---
+{
+	externalId 			: payload.Id,
+	title 				: payload.Name,
+	closeDate 			: payload.CloseDate as :date,
+	expectedCloseDate 	: payload.CloseDate as :date,
+	probability 		: payload.Probability,
+	entity 				: {
+		internalId		: recordVars.customerInNetsuite.internalId,
+		type			: 'CUSTOMER'
+	},
+	entityStatus		: {
+		internalId		: stageToStatus(payload.StageName).status,
+		type			: 'CUSTOMER_STATUS'
+	}
+}]]></dw:set-payload>
+                </dw:transform-message>
+
+                <netsuite:upsert-record config-ref="NetSuite" recordType="OPPORTUNITY" doc:name="upsert Opportunities in Netsuite">
                     <netsuite:attributes ref="#[payload]"/>
                 </netsuite:upsert-record>
                 <logger message="Upserted opportunity with internal ID: #[payload.getInternalId()] " level="INFO" doc:name="log Upsert result"/>
@@ -127,7 +142,7 @@ This flow should control the direction of the application, and it should be call
 
 ">
 		<batch:execute name="migrateOpportunitiesBatch"
-			doc:name="trigger migrateOpportunitiesBatch" />
+			doc:name="migrateOpportunitiesBatch" />
 		<exception-strategy ref="defaultChoiceExceptionStrategy"
 			doc:name="catch Exception and call defaultChoiceExceptionStrategy" />
 	</flow>
