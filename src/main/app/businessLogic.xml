@@ -32,7 +32,7 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 		</batch:input>
 		<batch:process-records>
 
-			<batch:step name="getCustomerIfExistsStep" accept-policy="ALL">
+			<batch:step name="getCustomerIfExistsStep" >
 				<enricher source="#[payload.hasNext() ? payload.next() : null]" target="#[recordVars.customerInNetsuite]"
 					doc:name="store result in customerInNetsuite">
                     <netsuite:query-records config-ref="NetSuite" query="dsql:SELECT companyName,entityId,entityStatus,externalId,internalId FROM CUSTOMER WHERE companyName = '#[payload.Account.Name]'" doc:name="Query Customer in Netsuite"/>
@@ -40,7 +40,7 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 				</enricher>
 			</batch:step>
 			<batch:step name="createCustomerIfDoesNotExistStep"
-				accept-expression="#[recordVars.customerInNetsuite == null]" accept-policy="ALL">
+				accept-expression="#[recordVars.customerInNetsuite == null]" >
 				<enricher target="#[recordVars.customerInNetsuite]"
 					doc:name="store result in customerInNetsuite">
 					<processor-chain doc:name="Processor Chain">
@@ -75,7 +75,7 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 					</processor-chain>
 				</enricher>
 			</batch:step>
-            <batch:step name="upsertOpportunitiesInNetsuiteStep" accept-expression="#[payload != null]" accept-policy="ALL">
+            <batch:step name="upsertOpportunitiesInNetsuiteStep"  >
                 <dw:transform-message doc:name="Opportunity to OPPORTUNITY">
                 	<dw:input-payload mimeType="application/java"/>
                     <dw:set-payload><![CDATA[%dw 1.0
