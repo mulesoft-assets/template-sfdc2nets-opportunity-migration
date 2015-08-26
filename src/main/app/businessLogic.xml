@@ -33,18 +33,18 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 		<batch:process-records>
 
 			<batch:step name="getCustomerIfExistsStep" >
-				<enricher source="#[payload.hasNext() ? payload.next() : null]" target="#[recordVars.customerInNetsuite]"
+				<enricher source="#[payload.hasNext() ? payload.next()[&quot;internalId&quot;] : null]" target="#[payload.InternalId]"
 					doc:name="store result in customerInNetsuite">
-                    <netsuite:query-records config-ref="NetSuite" query="dsql:SELECT companyName,entityId,entityStatus,externalId,internalId FROM CUSTOMER WHERE companyName = '#[payload.Account.Name]'" doc:name="Query Customer in Netsuite"/>
+                    <netsuite:query-records config-ref="NetSuite" query="dsql:SELECT internalId FROM CUSTOMER WHERE companyName = '#[payload.Account.Name]'" doc:name="Query Customer in Netsuite"/>
 
 				</enricher>
 			</batch:step>
 			<batch:step name="createCustomerIfDoesNotExistStep"
-				accept-expression="#[recordVars.customerInNetsuite == null]" >
-				<enricher target="#[recordVars.customerInNetsuite]"
-					doc:name="store result in customerInNetsuite">
+				accept-expression="#[payload.InternalId == null]" >
+				<enricher target="#[payload.InternalId]"
+					doc:name="store result in customerInNetsuite" source="#[payload.getInternalId()]">
 					<processor-chain doc:name="Processor Chain">
-                        <dw:transform-message doc:name="Payload to CUSTOMER">
+                        <dw:transform-message doc:name="Transform payload to Customer in Netsuite">
                         	<dw:input-payload mimeType="application/java"/>
                             <dw:set-payload><![CDATA[%dw 1.0
 %output application/java
@@ -66,29 +66,28 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 						<logger
 							message="New Customer created in Netsuite: #[payload.getInternalId()]"
 							level="INFO" doc:name="Log created Customer" />
-						<netsuite:get-record config-ref="NetSuite"
-							
-							doc:name="Get created Customer in Netsuite" >
-                            <netsuite:record-ref internalId="#[payload.getInternalId()]" type="CUSTOMER"/>
-                        </netsuite:get-record>
+
 
 					</processor-chain>
 				</enricher>
 			</batch:step>
             <batch:step name="upsertOpportunitiesInNetsuiteStep"  >
-                <dw:transform-message doc:name="Opportunity to OPPORTUNITY">
+
+                <dw:transform-message doc:name="Transform Opportunity from Salesforce to Opportunity in Netsuite">
                 	<dw:input-payload mimeType="application/java"/>
                     <dw:set-payload><![CDATA[%dw 1.0
 %output application/java
 
-%function stageToStatus(stage) using (defaultStatus = p('nets.opportunity.status.internalId')) {
-	status : 13 	when stage == 'Closed Won'      		otherwise 			
+//find status number according to stage name otherwise use default one - defined in properties file
+%function stageToStatus(stage)  
+using (defaultStatus = p('nets.opportunity.status.internalId')){
+	 status : 13 	when stage == 'Closed Won'      		otherwise 			
 	(        14 	when stage == 'Closed Lost'          	otherwise 			
 	(        11 	when stage == 'Negotiation/Review'   	otherwise 	
 	(         9 	when stage == 'Id. Decision Makers'  	otherwise 	
 	(        10	    when stage == 'Proposal/Price Quote' 	otherwise 
-	status : defaultStatus))))
-} unless stage is :null otherwise status: defaultStatus
+     defaultStatus))))
+} unless stage is :null otherwise defaultStatus
 ---
 {
 	externalId 			: payload.Id,
@@ -97,7 +96,7 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 	expectedCloseDate 	: payload.CloseDate as :date,
 	probability 		: payload.Probability,
 	entity 				: {
-		internalId		: recordVars.customerInNetsuite.internalId,
+		internalId		: payload.InternalId,
 		type			: 'CUSTOMER'
 	},
 	entityStatus		: {
@@ -107,10 +106,10 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 }]]></dw:set-payload>
                 </dw:transform-message>
 
-                <netsuite:upsert-record config-ref="NetSuite" recordType="OPPORTUNITY" doc:name="upsert Opportunities in Netsuite">
+                <netsuite:upsert-record config-ref="NetSuite" recordType="OPPORTUNITY" doc:name="Upsert Opportunities in Netsuite">
                     <netsuite:attributes ref="#[payload]"/>
                 </netsuite:upsert-record>
-                <logger message="Upserted opportunity with internal ID: #[payload.getInternalId()] " level="INFO" doc:name="log Upsert result"/>
+                <logger message="Upserted opportunity with internal ID: #[payload.getInternalId()] " level="INFO" doc:name="Log Upsert result"/>
             </batch:step>
 
 
@@ -119,9 +118,9 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 			<scatter-gather doc:name="All">
 				<processor-chain>
 					<json:object-to-json-transformer
-						doc:name="transform BatchJobInstance to JSON" />
+						doc:name="Transform BatchJobInstance to JSON" />
 					<logger message="Migration process has finished: #[payload]"
-						level="INFO" doc:name="log 'Migration process has finished'" />
+						level="INFO" doc:name="Log 'Migration process has finished'" />
 				</processor-chain>
 				<processor-chain>
                     <parse-template location="./src/main/resources/email/body.html" doc:name="Parse Template"/>
@@ -142,9 +141,9 @@ This flow should control the direction of the application, and it should be call
 
 ">
 		<batch:execute name="migrateOpportunitiesBatch"
-			doc:name="migrateOpportunitiesBatch" />
+			doc:name="Execute migrateOpportunitiesBatch" />
 		<exception-strategy ref="defaultChoiceExceptionStrategy"
-			doc:name="catch Exception and call defaultChoiceExceptionStrategy" />
+			doc:name="Catch Exception and call defaultChoiceExceptionStrategy" />
 	</flow>
 
 </mule>
