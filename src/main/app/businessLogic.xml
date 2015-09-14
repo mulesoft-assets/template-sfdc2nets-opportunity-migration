@@ -92,9 +92,9 @@ using (defaultStatus = p('nets.opportunity.status.internalId')){
 {
 	externalId 			: payload.Id,
 	title 				: payload.Name,
-	closeDate 			: payload.CloseDate as :date,
-	expectedCloseDate 	: payload.CloseDate as :date,
-	probability 		: payload.Probability,
+	closeDate 			: payload.CloseDate as :date {class: "java.util.Date"} default null,
+	expectedCloseDate 		: payload.CloseDate as :date {class: "java.util.Date"} default null,
+	probability 			: payload.Probability,
 	entity 				: {
 		internalId		: payload.InternalId,
 		type			: 'CUSTOMER'
