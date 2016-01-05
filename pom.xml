@@ -22,7 +22,6 @@
 	
 	<properties>
 		<nets.version>7.0.0</nets.version>
-		<mule.version>3.7.3</mule.version>
 	</properties>
 
 	<build>
