@@ -183,6 +183,7 @@ In order to use this Mule Anypoint Template you need to configure properties (Cr
 + nets.password `password`
 + nets.account `ABCDEF1234567`
 + nets.roleId `1`
++ nets.applicationId `77EBCBD6-AF9F-11E5-BF7F-FEFF819CDC9F`
 
 #### Netsuite required fields
 
