@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:netsuite="http://www.mulesoft.org/schema/mule/netsuite"
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:netsuite="http://www.mulesoft.org/schema/mule/netsuite"
 	xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns:json="http://www.mulesoft.org/schema/mule/json"
 	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.7.1"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
 http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
-http://www.mulesoft.org/schema/mule/netsuite http://www.mulesoft.org/schema/mule/netsuite/current/mule-netsuite.xsd">
+http://www.mulesoft.org/schema/mule/netsuite http://www.mulesoft.org/schema/mule/netsuite/current/mule-netsuite.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
 	<sub-flow name="createOpportunityFlow">
 		<sfdc:create config-ref="Salesforce" type="Opportunity"
 			doc:name="create Opportunity in Salesforce">
@@ -20,19 +22,22 @@ http://www.mulesoft.org/schema/mule/netsuite http://www.mulesoft.org/schema/mule
 			doc:name="Logger" />
 	</sub-flow>
 	<sub-flow name="retrieveOpportunityFlow">
-		<netsuite:query-records config-ref="NetSuite"
-			query="dsql:SELECT department,entity,entityStatus,externalId,internalId,lastModifiedDate,leadSource,partner,status,
-subsidiary,title,tranDate,tranId,expectedCloseDate,probability
-FROM OPPORTUNITY WHERE externalId = '#[payload.Id]'"
-			doc:name="retrieve Opportunity in Netsuite" />
-		<expression-component doc:name="retrieve Opportunity object"><![CDATA[java.util.HashMap opportunity;
+        <logger message="Retrieving Opportunity by externalId : #[payload.Id]" level="INFO" doc:name="Logger"/>
+        <dw:transform-message doc:name="Create search criteria">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+{	basic: {		externalId: {			operator: "ANY_OF",			searchValue: [{				externalId: payload.Id
+			}]
+		}
+	}
+}as :object {class : "com.netsuite.webservices.transactions.sales.OpportunitySearch"}]]></dw:set-payload>
+        </dw:transform-message>
+        <enricher source="#[payload.hasNext() ? payload.next() : NullPayload.getInstance()]" target="#[payload]" doc:name="retrieve object">
+            <netsuite:search config-ref="NetSuite" searchRecord="OPPORTUNITY" doc:name="retrieve Opportunity from Netsuite"/>
+        </enricher>
 
-if (payload.hasNext()){
-	opportunity = payload.next();
-}
-
-payload = opportunity;]]></expression-component>
-		<logger level="INFO" message="Retrieve Opportunities result: #[payload]"
+		<logger level="INFO" message="Retrieved opportunity: #[payload]"
 			doc:name="Logger" />
 	</sub-flow>
 	<sub-flow name="deleteOpportunitiesFromSalesforceFlow">
@@ -45,10 +50,8 @@ payload = opportunity;]]></expression-component>
 			doc:name="Logger" />
 	</sub-flow>
 	<sub-flow name="deleteOpportunitiesFromNetsuiteFlow">
-		<netsuite:delete-list config-ref="NetSuite"
-			doc:name="delete Opportunity from Netsuite">
+        <netsuite:delete-list config-ref="NetSuite" doc:name="delete Opportunity from Netsuite"/>
 
-		</netsuite:delete-list>
         <foreach doc:name="For Each Opportunity">
             <logger message="Remove Opportunity with ID #[payload.getBaseRef().getInternalId()] from Netsuite result: #[payload.getStatus().getIsSuccess()]" level="INFO" doc:name="Logger"/>
         </foreach>
@@ -62,16 +65,28 @@ payload = opportunity;]]></expression-component>
         <logger message="Create Account in Salesforce result: #[payload]" level="INFO" doc:name="Logger"/>
 	</sub-flow>
 	<sub-flow name="retrieveCustomerFlow">
-		<netsuite:query-records config-ref="NetSuite"
-			query="dsql:SELECT companyName,entityId,entityStatus,externalId,internalId FROM CUSTOMER WHERE companyName = '#[payload.Name]'"
-			doc:name="Retrieve Customer from Netsuite" />
-		<expression-component doc:name="retrieve Customer object"><![CDATA[java.util.HashMap customer;
+        <logger message="Retrieving Customer by name : #[payload.Name]" level="INFO" doc:name="Logger"/>
+        <dw:transform-message doc:name="Create search criteria">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+{
+	basic: {
+		companyName: {
+			operator: "IS",
+			searchValue: payload.Name
+		}
+	}
+} as :object { class: "com.netsuite.webservices.lists.relationships.CustomerSearch" }]]></dw:set-payload>
+        </dw:transform-message>
+        <enricher source="#[payload.hasNext() ? payload.next() : NullPayload.getInstance()]" target="#[payload]" doc:name="retrieve object">
+            <netsuite:search config-ref="NetSuite" searchRecord="CUSTOMER" doc:name="Retrieve customer from Netsuite"/>
+        </enricher>
 
-if (payload.hasNext()){
-	customer = payload.next();
-}
+<!-- 		<netsuite:query-records config-ref="NetSuite" -->
+<!-- 			query="dsql:SELECT companyName,entityId,entityStatus,externalId,internalId FROM CUSTOMER WHERE companyName = '#[payload.Name]'" -->
+<!-- 			doc:name="Retrieve Customer from Netsuite" /> -->
 
-payload = customer;]]></expression-component>
 		<logger level="INFO" message="Retrieve Customer result: #[payload]"
 			doc:name="Logger" />
 	</sub-flow>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule version="EE-3.7.1"
+<mule xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" 
 	xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" 
 	xmlns:netsuite="http://www.mulesoft.org/schema/mule/netsuite"
 	xmlns:core="http://www.mulesoft.org/schema/mule/core" 
@@ -35,14 +35,30 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 			<batch:step name="getCustomerIfExistsStep" >
 				<enricher source="#[payload.hasNext() ? payload.next()[&quot;internalId&quot;] : null]" target="#[payload.InternalId]"
 					doc:name="store result in customerInNetsuite">
-                    <netsuite:query-records config-ref="NetSuite" query="dsql:SELECT internalId FROM CUSTOMER WHERE companyName = '#[payload.Account.Name]'" doc:name="Query Customer in Netsuite"/>
+                    <processor-chain doc:name="Processor Chain">
+                        <dw:transform-message doc:name="Create search criteria">
+                            <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+{
+	basic: {
+		companyName: {
+			operator: "IS",
+			searchValue: payload.Account.Name
+		}
+	}
+} as :object {class: "com.netsuite.webservices.lists.relationships.CustomerSearch"}]]></dw:set-payload>
+                        </dw:transform-message>
+                        <netsuite:search config-ref="NetSuite" searchRecord="CUSTOMER" doc:name="Search for Customer"/>
+                    </processor-chain>
+
 
 				</enricher>
 			</batch:step>
 			<batch:step name="createCustomerIfDoesNotExistStep"
 				accept-expression="#[payload.InternalId == null]" >
-				<enricher target="#[payload.InternalId]"
-					doc:name="store result in customerInNetsuite" source="#[payload.getInternalId()]">
+				<enricher 
+					doc:name="store result in customerInNetsuite" source="#[payload.getInternalId()]" target="#[payload.InternalId]">
 					<processor-chain doc:name="Processor Chain">
                         <dw:transform-message doc:name="Transform payload to Customer in Netsuite">
                         	<dw:input-payload mimeType="application/java"/>
@@ -69,9 +85,10 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 
 
 					</processor-chain>
+
 				</enricher>
 			</batch:step>
-            <batch:step name="upsertOpportunitiesInNetsuiteStep"  >
+            <batch:step name="upsertOpportunitiesInNetsuiteStep" >
 
                 <dw:transform-message doc:name="Transform Opportunity from Salesforce to Opportunity in Netsuite">
                 	<dw:input-payload mimeType="application/java"/>
@@ -93,8 +110,8 @@ using (defaultStatus = p('nets.opportunity.status.internalId')){
 	externalId 			: payload.Id,
 	title 				: payload.Name,
 	closeDate 			: payload.CloseDate as :date {class: "java.util.Date"} default null,
-	expectedCloseDate 		: payload.CloseDate as :date {class: "java.util.Date"} default null,
-	probability 			: payload.Probability,
+	expectedCloseDate 	: payload.CloseDate as :date {class: "java.util.Date"} default null,
+	probability 		: payload.Probability,
 	entity 				: {
 		internalId		: payload.InternalId,
 		type			: 'CUSTOMER'
