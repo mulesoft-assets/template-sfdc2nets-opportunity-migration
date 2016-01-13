@@ -140,7 +140,7 @@ using (defaultStatus = p('nets.opportunity.status.internalId')){
 						level="INFO" doc:name="Log 'Migration process has finished'" />
 				</processor-chain>
 				<processor-chain>
-                    <parse-template location="./src/main/resources/email/body.html" doc:name="Parse Template"/>
+                    <parse-template location="email/body.html" doc:name="Parse Template"/>
 
 					<smtp:outbound-endpoint host="${smtp.host}"
 						port="${smtp.port}" user="${smtp.user}" password="${smtp.password}"
