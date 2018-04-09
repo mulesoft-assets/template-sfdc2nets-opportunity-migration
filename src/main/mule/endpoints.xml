@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="triggerFlow" doc:id="c56478bc-3563-4251-8c30-35d2da6a3e5b">
+		<http:listener doc:name="/migrate"
+			doc:id="f56ef802-706b-494f-988f-531d0f06298c" config-ref="HTTP_Listener_config"
+			path="/migrate" allowedMethods="GET" />
+		<flow-ref doc:name="mainFlow" doc:id="12238107-efe2-44fb-89f6-e1726655a746"
+			name="mainFlow" />
+		<ee:transform doc:name="Build response" doc:id="2abddd58-c707-435a-a004-ec5ba9107429" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+ ---
+ {
+ 	Message: "Batch Process initiated",
+ 	ID: payload.id,
+ 	RecordCount: payload.recordCount,
+ 	StartExecutionOn: payload.creationTime as DateTime
+ }
+ ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+
+</mule>
