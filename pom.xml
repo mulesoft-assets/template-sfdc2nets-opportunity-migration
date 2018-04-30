@@ -15,25 +15,6 @@
 
 	<name>template-sfdc2nets-opportunity-migration</name>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.mule.tools.maven</groupId>
-				<artifactId>mule-maven-plugin</artifactId>
-				<version>${mule.maven.plugin.version}</version>
-				<extensions>true</extensions>
-				<configuration>
-					<classifier>mule-application</classifier>
-					<attachMuleSources>true</attachMuleSources>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-	
-	<properties>
-		<netsuite.connector.version>8.1.0</netsuite.connector.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.mule.connectors</groupId>
@@ -46,8 +27,8 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
-			<groupId>org.mule.connectors</groupId>
-			<artifactId>mule-sfdc-connector</artifactId>
+			<groupId>com.mulesoft.connectors</groupId>
+			<artifactId>mule-salesforce-connector</artifactId>
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
@@ -63,7 +44,6 @@
 		<dependency>
 			<groupId>com.mulesoft.connectors</groupId>
 			<artifactId>mule-netsuite-connector</artifactId>
-			<version>${netsuite.connector.version}</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
 	</dependencies>
