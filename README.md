@@ -1,6 +1,18 @@
-# template: Salesforce to NetSuite Opportunity Migration
+# Template: Salesforce to NetSuite Opportunity Migration
 
-Use Case: As a Salesforce administrator I want to synchronize Opportunities from Salesforce to NetSuite.
+Moves a large set of opportunities from Salesforce to NetSuite. You can trigger this manually or programmatically with an HTTP call. 
+
+![c7ff1c78-3dd8-4cd1-9d7c-4b06efcbfef9-image.png](https://exchange2-file-upload-service-kprod.s3.us-east-1.amazonaws.com:443/c7ff1c78-3dd8-4cd1-9d7c-4b06efcbfef9-image.png)
+
+Opportunities are upserted so that the migration can be run multiple times without  creating duplicates. This template uses batch to efficiently process many records at a time.
+
+# License Agreement
+
+Using this template is subject to the conditions of this <a href="https://github.com/mulesoft/template-sfdc2nets-opportunity-migration/blob/4.1/AnypointTemplateLicense.pdf">License Agreement</a>. Review the terms of the license before downloading and using this template. In short, you are allowed to use the template for free with Mule Enterprise Edition, CloudHub, or as a trial in Anypoint Studio.
+
+### Use Case
+
+As a Salesforce administrator I want to synchronize Opportunities from Salesforce to NetSuite.
 
 This template should serve as a foundation for the process of migrating Opportunities from Salesforce instance to NetSuite, being able to specify filtering criteria and desired behavior when an opportunity already exists in the destination system. 
 
@@ -26,17 +38,13 @@ The relevant data can be found this way:
 Customer must be assigned to a subsidiary. In this template, this is done statically and you must configure the property file with subsidiary *internalId*, which is already in the system. You can find this number by entering 'subsidiaries' 
 in the NetSuite search field and selecting 'Page - Subsidiaries'. When you click the 'View' next to the subsidiary chosen, you see the ID in the URL line. Use this ID to populate the  *nets.subsidiaryId* property in the property file.
 
-## Salesforce Considerations
+## Salesforce FAQ
 
-For this template to work, be aware of your Salesforce field configuration:
+Consider these issues:
 
-- Where can I check that the field configuration for my Salesforce instance is the right one?
+- Where can I check that the field configuration for my Salesforce instance is the right one? See: <a href="https://help.salesforce.com/HTViewHelpDoc?id=checking_field_accessibility_for_a_particular_field.htm&language=en_US">Salesforce: Checking Field Accessibility for a Particular Field</a>
 
-    <a href="https://help.salesforce.com/HTViewHelpDoc?id=checking_field_accessibility_for_a_particular_field.htm&language=en_US">Salesforce: Checking Field Accessibility for a Particular Field</a>
-
-- Can I modify the Field Access Settings? How?
-
-    <a href="https://help.salesforce.com/HTViewHelpDoc?id=modifying_field_access_settings.htm&language=en_US">Salesforce: Modifying Field Access Settings</a>
+- Can I modify the Field Access Settings? How? See: <a href="https://help.salesforce.com/HTViewHelpDoc?id=modifying_field_access_settings.htm&language=en_US">Salesforce: Modifying Field Access Settings</a>
 
 ### As a Data Source
 
