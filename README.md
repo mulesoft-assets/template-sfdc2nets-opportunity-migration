@@ -126,7 +126,6 @@ In order to use this Mule template you need to configure properties (Credentials
 - sfdc.a.username `PollyHedra@org`
 - sfdc.a.password `HedraPassword123`
 - sfdc.a.securityToken `avsfwCUl7apQs56Xq2AKi3X`
-- sfdc.a.url `https://login.salesforce.com/services/Soap/u/32.0`
 
 #### NetSuite Connector Configuration
 

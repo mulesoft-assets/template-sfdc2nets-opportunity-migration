@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting"
+	xmlns:netsuite="http://www.mulesoft.org/schema/mule/netsuite" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd 
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/netsuite http://www.mulesoft.org/schema/mule/netsuite/current/mule-netsuite.xsd">
+	<munit:config name="test-suite.xml" doc:name="MUnit configuration" />
+	<configuration-properties doc:name="Configuration properties"
+		doc:id="9ccff924-f3a9-422c-a218-11c91dde07b9" file="mule.test.properties" />
+	<munit:before-test name="test-suiteBefore_Test"
+		description="Before tests actions" doc:id="bb4fa39e-76b9-41c9-82c0-cc68ffadba9c">
+		<ee:transform doc:name="Prepare test account data"
+			doc:id="61bf167c-7c45-4fac-a471-4b5e22a6b3fe">
+			<ee:message>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable variableName="testAccount"><![CDATA[%dw 2.0
+output application/java
+---
+{
+	Name: "TestOpportunityAccount" ++ randomInt(1000),
+	Description: "test account for opportunity",
+	Industry: "Education",
+	NumberOfEmployees: 15000
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<salesforce:create type="Account"
+			doc:name="Create test Account in Salesforce" doc:id="278ce9c7-5417-494b-871c-786fd9d328d4"
+			config-ref="Salesforce_Sfdc_A_config">
+			<salesforce:records><![CDATA[#[[vars.testAccount]]]]></salesforce:records>
+		</salesforce:create>
+		<set-variable value="#[payload.id]" doc:name="Store account ID"
+			doc:id="3c7519b9-34fe-4874-9763-2cf97e38107f" variableName="salesforceAccountId" />
+		<ee:transform doc:name="Prepare test opportunity data"
+			doc:id="37727b44-ce8a-406a-a058-7de723f7f81c">
+			<ee:message>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable variableName="testOpportunity1"><![CDATA[%dw 2.0
+output application/java
+---
+{	
+	Name: "testOpportunity1" ++ randomInt(1000),
+	Amount: 123,
+	Probability: 10,
+    "StageName": "Stage",
+    "CloseDate": now(),
+	"AccountId": vars.salesforceAccountID[0]
+}]]></ee:set-variable>
+				<ee:set-variable variableName="testOpportunity2"><![CDATA[%dw 2.0
+output application/java
+---
+{
+	Name: "testOpportunity2" ++ randomInt(1000),
+	Amount: 456,
+	Probability: 20,
+    "StageName": "Stage",
+    "CloseDate": now()
+}
+]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<salesforce:create type="Opportunity"
+			doc:name="Create test Opportunities in Salesforce" doc:id="cbdb6216-7261-4d9f-8878-9f6fb06d1e2a"
+			config-ref="Salesforce_Sfdc_A_config">
+			<salesforce:records><![CDATA[#[[vars.testOpportunity1, vars.testOpportunity2]]]]></salesforce:records>
+		</salesforce:create>
+		<set-variable value="#[payload map ($.id)]" doc:name="Store Ids from Salesforce"
+			doc:id="e2d5696c-0a15-4a8d-b1ae-6d10723aef8f" variableName="salesforceOpportunityIds" />
+
+		<munit-tools:mock-when doc:name="Mock email processor to avoid sending email"
+			doc:id="4b0560aa-efd4-4906-b389-a95723830e61" processor="email:send">
+			<munit-tools:then-return />
+		</munit-tools:mock-when>
+	</munit:before-test>
+	<munit:test name="test-suite-businesslogicFlowTest"
+		description="Test" doc:id="372e91b3-4516-48a5-8b77-d62814dfec22">
+		<munit:execution>
+			<flow-ref doc:name="queryFlow" doc:id="dcd9506b-4239-4885-b096-6e59d8ea8a55"
+				name="queryFlow" />
+			<ee:transform doc:name="Filtering test records"
+				doc:id="ed829858-520e-4953-bae9-b1afc8d8c73a">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+payload filter ($.Name == vars.testOpportunity1.Name or 
+				$.Name == vars.testOpportunity2.Name or 
+				$.Name == vars.testOpportunity3.Name
+)]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<flow-ref doc:name="businesslogicFlow" doc:id="8ad9093b-24c1-485e-bfab-e85caa57c1ef"
+				name="businesslogicFlow" />
+			<scripting:execute doc:name="Sleep for 30s until the processing is completed"
+				doc:id="253a404e-9c17-40b3-9370-bb16dc3b082d" engine="groovy">
+				<scripting:code>sleep(30000)</scripting:code>
+			</scripting:execute>
+			<flow-ref doc:name="checkAccount" doc:id="83ba6f8b-b2b4-4d24-b542-770088dffd6e"
+				name="checkAccount" />
+			<flow-ref doc:name="checkOpportunities" doc:id="558f0990-d8ac-4b18-986e-ea33fd543157"
+				name="checkOpportunities" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert of account name"
+				doc:id="b72fbde8-68a4-430e-baaf-7f60e11d3776" expression="#[vars.testAccount.Name]"
+				is="#[MunitTools::equalTo(vars.accountNetSuite.companyName)]"
+				message="Assert of account name" />
+			<munit-tools:assert-that doc:name="Assert of migrated opportunity title" doc:id="16391d39-fded-4501-a9f4-4c649fb1d838" expression="#[vars.testOpportunity1.Name]" is="#[MunitTools::equalTo(vars.migratedOpportunityNetSuite.title)]" message="Assert of migrated opportunity name" />
+			<munit-tools:assert-that doc:name="Assert of not migrated opportunity" doc:id="8e7d1e5c-8e72-4a7c-9c09-0eaebffb6a2d" expression="#[sizeOf(vars.notMigratedOpportunityNetSuite)]" is="#[MunitTools::equalTo(0)]" message="Assert of not migrated opportunity" />
+			
+			</munit:validation>
+	</munit:test>
+	<sub-flow name="checkAccount" doc:id="aa60429c-db82-4e40-b457-3cb33a1f6059">
+		<ee:transform doc:name="Query for NetSuite account"
+			doc:id="ef094228-f793-44b1-b953-675d95fc5d27">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+{
+	basic: {
+		companyName: {
+			operator: "IS",
+			searchValue: vars.testAccount.Name
+		}
+	}
+} as Object {class: "org.mule.module.netsuite.extension.api.CustomerSearch"}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<netsuite:search key="CUSTOMER" pageSize="100"
+			doc:name="Search customer" doc:id="c02a3c3d-d83c-4333-b535-45dcb7e2dad2"
+			config-ref="NetSuite_Config">
+		</netsuite:search>
+		<set-variable value="#[payload[0]]" doc:name="Set account variable"
+			doc:id="a264737e-4ce6-463a-a642-6520cbbffd1c" variableName="accountNetSuite" />
+	</sub-flow>
+	<sub-flow name="checkOpportunities" doc:id="0d859aa6-1ad5-4622-bfe4-922fea6bfe55">
+		<ee:transform doc:name="Query for migrated NetSuite opportunity"
+			doc:id="7cccf37e-aad8-4df0-a664-c07b337f305e">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+{
+	basic: {
+		title: {
+			operator: "IS",
+			searchValue: vars.testOpportunity1.Name
+		}
+	}
+} as Object {class: "org.mule.module.netsuite.extension.api.OpportunitySearch"}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<netsuite:search key="OPPORTUNITY" pageSize="100"
+			doc:name="Search migrated opportunity" doc:id="0ef4d5e8-3661-4cbb-855e-c9238169f1b5"
+			config-ref="NetSuite_Config" />
+		<set-variable value="#[payload[0]]" doc:name="Set migrated opportunity variable"
+			doc:id="7d258e3b-e5c3-43d9-9638-95e6b60695c8" variableName="migratedOpportunityNetSuite" />
+		<ee:transform doc:name="Query for not migrated NetSuite opportunity" doc:id="ccb96e5f-3aea-4fa2-9277-c1ab40890d78" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	basic: {
+		title: {
+			operator: "IS",
+			searchValue: vars.testOpportunity2.Name
+		}
+	}
+} as Object {class: "org.mule.module.netsuite.extension.api.OpportunitySearch"}
+]]></ee:set-payload>
+			</ee:message>
+			</ee:transform>
+	<netsuite:search key="OPPORTUNITY" pageSize="100" doc:name="Search not migrated opportunity" doc:id="dbbd58c8-4194-4242-bef0-1dd66913d905" config-ref="NetSuite_Config" target="notMigratedOpportunityNetSuite"/>
+		
+	</sub-flow>
+	<munit:after-test name="test-suiteAfter_Test" description="After tests actions" doc:id="9a6c667a-4fec-432c-ab93-7fa59f0312ae" >
+		<salesforce:delete doc:name="Delete source Opportunities and Account in Salesforce" doc:id="08f77b17-c1e3-4692-b624-4cebcfd5c7f2" config-ref="Salesforce_Sfdc_A_config">
+				<salesforce:delete-ids><![CDATA[#[vars.salesforceOpportunityIds + vars.salesforceAccountId[0]]]]></salesforce:delete-ids>
+			</salesforce:delete>
+		<ee:transform doc:name="Mapping for deleting migrated Opportunity for NetSuite" doc:id="53ea6abb-506b-417e-9bbb-596254ddb62f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	internalId: vars.migratedOpportunityNetSuite.internalId,
+	"type": "OPPORTUNITY"
+} as Object {
+	class : "org.mule.module.netsuite.extension.api.RecordRef"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<netsuite:delete-record doc:name="Delete migrated Opportunity in NetSuite" doc:id="9dcd8642-caf6-455d-8764-208e912b8ff8" config-ref="NetSuite_Config">
+		</netsuite:delete-record>
+		<ee:transform doc:name="Mapping for deleting migrated Account for NetSuite" doc:id="e98fce4d-58bb-43ed-b7fb-a85dd19d90ef" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	internalId: vars.accountNetSuite.internalId,
+	"type": "CUSTOMER"
+} as Object {
+	class : "org.mule.module.netsuite.extension.api.RecordRef"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<netsuite:delete-record doc:name="Delete migrated Account in NetSuite" doc:id="c9649697-1bf5-4c55-8bc6-ad3a7f80e0d2" config-ref="NetSuite_Config">
+		</netsuite:delete-record>
+	</munit:after-test>
+</mule>
