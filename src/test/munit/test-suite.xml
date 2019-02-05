@@ -192,7 +192,7 @@ output application/java
 		<salesforce:delete doc:name="Delete source Opportunities and Account in Salesforce" doc:id="08f77b17-c1e3-4692-b624-4cebcfd5c7f2" config-ref="Salesforce_Sfdc_A_config">
 				<salesforce:delete-ids><![CDATA[#[vars.salesforceOpportunityIds + vars.salesforceAccountId[0]]]]></salesforce:delete-ids>
 			</salesforce:delete>
-		<ee:transform doc:name="Mapping for deleting migrated Opportunity for NetSuite" doc:id="53ea6abb-506b-417e-9bbb-596254ddb62f" >
+		<ee:transform doc:name="Query for deleting of migrated Opportunity in NetSuite" doc:id="53ea6abb-506b-417e-9bbb-596254ddb62f" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/java
@@ -207,7 +207,7 @@ output application/java
 		</ee:transform>
 		<netsuite:delete-record doc:name="Delete migrated Opportunity in NetSuite" doc:id="9dcd8642-caf6-455d-8764-208e912b8ff8" config-ref="NetSuite_Config">
 		</netsuite:delete-record>
-		<ee:transform doc:name="Mapping for deleting migrated Account for NetSuite" doc:id="e98fce4d-58bb-43ed-b7fb-a85dd19d90ef" >
+		<ee:transform doc:name="Query for deleting of migrated Account in NetSuite" doc:id="e98fce4d-58bb-43ed-b7fb-a85dd19d90ef" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/java
