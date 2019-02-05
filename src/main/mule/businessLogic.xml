@@ -14,19 +14,13 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd
 http://www.mulesoft.org/schema/mule/netsuite http://www.mulesoft.org/schema/mule/netsuite/current/mule-netsuite.xsd">
 	<flow name="businesslogicFlow" doc:id="20625294-79d3-45a3-90bd-9b44970bc67b">
-<salesforce:query config-ref="Salesforce_Sfdc_A_config"
-		doc:name="Query Opportunities from Salesforce instance A" doc:id="ebcf71a8-3192-4437-b2cb-b23f008afae5">
-		<salesforce:salesforce-query>SELECT Id, Name, Amount, StageName,
-			Probability, CloseDate, Account.Id, Account.Name FROM Opportunity
-			WHERE Account.Id &lt;&gt; null</salesforce:salesforce-query>
-	</salesforce:query>
 		<batch:job jobName="migrateOpportunitiesBatch" doc:id="79b373e6-1aeb-43a9-9dfe-8ac0d2f31fdc">
 			<batch:process-records>
 				<batch:step name="getOpportunityFromNetsuiteStep" doc:id="232087de-e311-49c1-a890-439c65ea1af2">
 					<netsuite:search key="CUSTOMER" pageSize="100"
 						doc:name="Search customer" doc:id="7886a00a-6c5c-43f9-9fd2-87666cdb5654"
 						config-ref="NetSuite_Config" target="netsuiteRecords">
-						<netsuite:search-record><![CDATA[#[%dw 2.0
+						<netsuite:search-record ><![CDATA[#[%dw 2.0
 output application/java
 ---
 {
@@ -44,7 +38,8 @@ output application/java
 							<ee:set-payload><![CDATA[%dw 2.0
 output application/java
 ---
-payload ++ {InternalId: vars.netsuiteRecords[0].internalId}]]></ee:set-payload>
+payload ++ {InternalId: vars.netsuiteRecords[0].internalId}
+]]></ee:set-payload>
 						</ee:message>
 					</ee:transform>
 				</batch:step>
@@ -157,7 +152,17 @@ var status = if (payload.StageName == 'Closed Won') 13
 			</batch:on-complete>
 		</batch:job>
 </flow>
+	<sub-flow name="queryFlow" doc:id="0925f843-a617-4769-b224-1a45a6cd78d8" >
+		<salesforce:query config-ref="Salesforce_Sfdc_A_config" doc:name="Query Opportunities from Salesforce instance A" doc:id="ebcf71a8-3192-4437-b2cb-b23f008afae5">
+		<salesforce:salesforce-query>SELECT Id, Name, Amount, StageName,
+			Probability, CloseDate, Account.Id, Account.Name FROM Opportunity
+			WHERE Account.Id &lt;&gt; null</salesforce:salesforce-query>
+	</salesforce:query>
+	</sub-flow>
 	<flow name="mainFlow" doc:id="c9d80d54-ed92-4dc2-872f-629f3c0b678f">
+		<flow-ref doc:name="queryFlow" doc:id="d2d6253c-b74f-43aa-9c25-1521de4e3083" name="queryFlow"/>
+		
+		
 		<flow-ref doc:name="businesslogicFlow" doc:id="7e1b3d52-2256-4af8-b0c5-b8fbee3d1b66"
 			name="businesslogicFlow" />
 		<error-handler>
